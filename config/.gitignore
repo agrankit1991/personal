@@ -1,0 +1,16 @@
+build/
+coverage/
+
+DS_Store
+
+#intellij
+.idea/
+target/
+*.iml
+
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
