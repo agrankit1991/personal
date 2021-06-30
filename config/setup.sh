@@ -6,6 +6,8 @@ sudo snap install vlc
 sudo apt install make
 sudo apt install vim
 sudo apt install zsh
+#Install proprietary Nvidia GPU Drivers
+sudo apt install nvidia-driver-455
 
 #Git and Github setup
 sudo apt install git
