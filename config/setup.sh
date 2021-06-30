@@ -8,6 +8,9 @@ sudo apt install vim
 sudo apt install zsh
 #Install proprietary Nvidia GPU Drivers
 sudo apt install nvidia-driver-455
+#Install Tor Browser
+sudo add-apt-repository ppa:micahflee/ppa
+sudo apt install torbrowser-launcher
 
 #Git and Github setup
 sudo apt install git
