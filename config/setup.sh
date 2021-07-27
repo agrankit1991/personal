@@ -20,6 +20,8 @@ ssh-keygen
 cat ~/.ssh/id_rsa.pub
 # Setup token for repo, needed for 2FA https://github.com/settings/tokens
 # https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
+# command for storing git credentials locally in plain text
+git config --global credential.helper store
 #gitignore
 touch ~/.gitignore
 git config --global core.excludesfile ~/.gitignore
