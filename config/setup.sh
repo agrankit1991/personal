@@ -41,6 +41,15 @@ sudo snap install intellij-idea-community --classic
 #Postman
 sudo snap install postman
 
+#MySql Server and Workbench: https://phoenixnap.com/kb/install-mysql-ubuntu-20-04
+sudo apt install mysql-server
+sudo mysql_secure_installation
+sudo snap install mysql-workbench-community
+# Store password for application downloaded from snap
+sudo snap connect mysql-workbench-community:password-manager-service :password-manager-service
+# Allow mysql workbench to connect to root user with password
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '<password>';
 #oh-my-zsh
 sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
