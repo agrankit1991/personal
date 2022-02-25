@@ -46,7 +46,8 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/supercrabtree/k $ZSH_CUSTOM/plugins/k
 code ~/.zshrc
-#update plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
+#update plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions k)
 source ~/.zshrc
 #Download font https://github.com/powerline/fonts/raw/master/SourceCodePro/Source%20Code%20Pro%20for%20Powerline.otf
