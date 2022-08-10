@@ -45,6 +45,10 @@ sudo snap install postman
 # Download snap file https://obsidian.md/download
 sudo snap install '/home/agrankit/Downloads/obsidian_0.15.9_amd64.snap' --dangerous
 
+#Unrar - To extract rar files
+sudo apt-get install unrar
+#Command unrar x <file_path>
+
 #MySql Server and Workbench: https://phoenixnap.com/kb/install-mysql-ubuntu-20-04
 sudo apt install mysql-server
 sudo mysql_secure_installation
