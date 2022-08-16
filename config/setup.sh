@@ -45,6 +45,9 @@ sudo snap install postman
 # Download snap file https://obsidian.md/download
 sudo snap install '/home/agrankit/Downloads/obsidian_0.15.9_amd64.snap' --dangerous
 
+#Trading View
+sudo snap install tradingview
+
 #Unrar - To extract rar files
 sudo apt-get install unrar
 #Command unrar x <file_path>
