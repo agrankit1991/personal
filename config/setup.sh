@@ -16,6 +16,8 @@ sudo apt install torbrowser-launcher
 sudo apt install git
 git config --global user.email "ankitagrawal1991@gmail.com"
 git config --global user.name "Ankit Agrawal"
+git config --global column.ui auto
+git config --global branch.sort -committerdate
 ssh-keygen
 cat ~/.ssh/id_rsa.pub
 # Setup token for repo, needed for 2FA https://github.com/settings/tokens
