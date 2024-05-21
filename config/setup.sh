@@ -28,8 +28,11 @@ git config --global credential.helper store
 touch ~/.gitignore
 git config --global core.excludesfile ~/.gitignore
 
+sudo add-apt-repository ppa:openjdk-r/ppa
+#JDK21
+sudo apt-get install openjdk-21-jdk
 #JDK8
-sudo apt install openjdk-8-jdk
+sudo apt-get install openjdk-8-jdk
 
 #VS Code
 sudo apt install software-properties-common apt-transport-https wget
@@ -44,8 +47,8 @@ sudo snap install intellij-idea-community --classic
 sudo snap install postman
 
 #Obsidian
-# Download snap file https://obsidian.md/download
-sudo snap install '/home/agrankit/Downloads/obsidian_0.15.9_amd64.snap' --dangerous
+# Download snap file https://obsidian.md/download --classic is needed because it has to access notes from outside
+sudo snap install obsidian --classic
 
 #Trading View
 sudo snap install tradingview
@@ -57,15 +60,6 @@ sudo snap install dbeaver-ce
 sudo apt-get install unrar
 #Command: unrar x <file_path>
 
-#MySql Server and Workbench: https://phoenixnap.com/kb/install-mysql-ubuntu-20-04
-sudo apt install mysql-server
-sudo mysql_secure_installation
-sudo snap install mysql-workbench-community
-# Store password for application downloaded from snap
-sudo snap connect mysql-workbench-community:password-manager-service :password-manager-service
-# Allow mysql workbench to connect to root user with password
-sudo mysql
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '<password>';
 #oh-my-zsh
 sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions

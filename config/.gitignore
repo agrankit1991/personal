@@ -1,13 +1,31 @@
 build/
 coverage/
+dist/
+target/
 
 DS_Store
 
-#intellij
-.idea/
-target/
-*.iml
+# Java
+*.class
 
+# IntelliJ
+*.iml
+.idea/
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyz
+*.pyzw
+*.egg-info/
 
 # Compiled class file
 *.class
