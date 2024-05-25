@@ -1,4 +1,4 @@
-sudo apt install postgresql
+sudo nala install postgresql
 
 # switch to the postgres user
 sudo -i -u postgrespsql

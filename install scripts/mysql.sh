@@ -1,5 +1,5 @@
 #MySql Server and Workbench: https://phoenixnap.com/kb/install-mysql-ubuntu-20-04
-sudo apt install mysql-server
+sudo nala install mysql-server
 sudo mysql_secure_installation
 sudo snap install mysql-workbench-community
 # Store password for application downloaded from snap
