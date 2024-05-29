@@ -12,15 +12,25 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
 git clone https://github.com/supercrabtree/k $ZSH_CUSTOM/plugins/k
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 code ~/.zshrc
 #update plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions fzf-tab k)
 #Download font https://github.com/powerline/fonts/raw/master/SourceCodePro/Source%20Code%20Pro%20for%20Powerline.otf
 source ~/.zshrc
 
+#fzf
+#Replacement for ls
+sudo nala install eza
+
 ########################## Browsers ##########################
 # Install Tor Browser
 sudo add-apt-repository ppa:micahflee/ppa
 sudo nala install torbrowser-launcher
+
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+sudo nala update
+sudo nala install brave-browser
 
 ########################## Languages ##########################
 # Java
