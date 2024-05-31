@@ -18,9 +18,17 @@ code ~/.zshrc
 #Download font https://github.com/powerline/fonts/raw/master/SourceCodePro/Source%20Code%20Pro%20for%20Powerline.otf
 source ~/.zshrc
 
-#fzf
+#bat - a better cat
+sudo nala install bat
+
 #Replacement for ls
 sudo nala install eza
+
+#zoxide - a better cd
+sudo nala install zoxide
+
+#tldr - replacement for man pages
+sudo nala install tldr
 
 ########################## Browsers ##########################
 # Install Tor Browser
@@ -63,8 +71,7 @@ sudo snap install dbeaver-ce
 sudo snap install obsidian --classic
 
 ########################## Others ##########################
-#Postman
-sudo snap install postman
+#Use Extension Manager Clipboard History
 #Trading View
 sudo snap install tradingview
 #Install proprietary Nvidia GPU Drivers

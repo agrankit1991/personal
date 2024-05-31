@@ -102,12 +102,11 @@ source $ZSH/oh-my-zsh.sh
 alias gs='git status'
 alias please='sudo'
 alias ls='eza --icons --group-directories-first -l'
-alias cd..='cd ..'
-alias ..='cd ..'
-alias ...='cd ../../../'
-alias ....='cd ../../../../'
-alias .....='cd ../../../../'
+alias cat='batcat'
+alias cd='z'
 alias wp='cd /home/agrankit/workplace'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+eval "$(zoxide init zsh)"
