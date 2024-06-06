@@ -70,7 +70,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions k)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -101,10 +101,14 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias gs='git status'
 alias please='sudo'
-alias ls='eza --icons --group-directories-first -l'
+alias install='sudo nala install'
+alias update='sudo nala update && sudo nala upgrade'
+alias du='duf'
+alias ps='procs --sortd cpu'
+alias ls='eza --icons --group-directories-first -l --sort=modified --reverse'
 alias cat='batcat'
 alias cd='z'
-alias wp='cd /home/agrankit/workplace'
+alias wp='cd /home/agrankit/workplace && ls'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

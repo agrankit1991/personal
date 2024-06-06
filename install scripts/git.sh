@@ -10,6 +10,5 @@ cat ~/.ssh/id_rsa.pub
 # https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
 # command for storing git credentials locally in plain text
 git config --global credential.helper store
-#gitignore
-touch ~/.gitignore
+#gitignore - run it after dotfile is present
 git config --global core.excludesfile ~/.gitignore

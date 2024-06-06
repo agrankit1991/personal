@@ -10,7 +10,6 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
 git clone https://github.com/supercrabtree/k $ZSH_CUSTOM/plugins/k
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 code ~/.zshrc
@@ -29,6 +28,12 @@ sudo nala install zoxide
 
 #tldr - replacement for man pages
 sudo nala install tldr
+
+#duf - a better du
+sudo nala install duf
+
+#procs - a better ps
+sudo snap install procs
 
 ########################## Browsers ##########################
 # Install Tor Browser
@@ -75,5 +80,8 @@ sudo snap install obsidian --classic
 #Trading View
 sudo snap install tradingview
 #Install proprietary Nvidia GPU Drivers
-sudo apt install nvidia-driver-455
+#sudo apt install nvidia-driver-535
+
+# Disable window resizing on top bar
+# https://askubuntu.com/questions/1511728/how-to-prevent-accidental-window-resizing-when-touching-the-top-bar-in-ubuntu-24
 
