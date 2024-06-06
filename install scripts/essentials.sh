@@ -87,3 +87,16 @@ sudo apt install build-essential
 # Disable window resizing on top bar
 # https://askubuntu.com/questions/1511728/how-to-prevent-accidental-window-resizing-when-touching-the-top-bar-in-ubuntu-24
 
+# Cleanup
+sudo apt autoremove
+sudo apt autoclean
+sudo apt clean
+
+# Check for firmware updates
+sudo fwupdmgr get-devices
+sudo fwupdmgr get-updates
+sudo fwupdmgr update
+# Reboot
+sudo reboot now
+
+# https://github.com/erik1066/pop-os-setup
