@@ -79,6 +79,8 @@ sudo snap install obsidian --classic
 #Use Extension Manager Clipboard History
 #Trading View
 sudo snap install tradingview
+# Install build-essential it contains gcc, g++ and make, which are needed for compiling C/C++ programs
+sudo apt install build-essential
 #Install proprietary Nvidia GPU Drivers
 #sudo apt install nvidia-driver-535
 
