@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/agrankit/.oh-my-zsh"
+export ZSH="/home/$USER/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -99,6 +99,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+export PATH=$PATH:'/home/bawandar/.local/bin'
 alias gs='git status'
 alias please='sudo'
 alias install='sudo nala install'
@@ -108,7 +110,7 @@ alias ps='procs --sortd cpu'
 alias ls='eza --icons --group-directories-first -l --sort=modified --reverse'
 alias cat='batcat'
 alias cd='z'
-alias wp='cd /home/agrankit/workplace && ls'
+alias wp='cd /home/$USER/workplace && ls'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
