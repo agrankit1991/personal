@@ -224,3 +224,18 @@ mkdir -p ~/Developer/Personal
 cd ~/Developer/Personal
 git config --local user.email "ankitagrawal1991@gmail.com"
 ```
+
+## FAQ
+If Git is still asking for username and password despite following the SSH setup, there are a few potential causes and solutions:
+First, let's verify if you're using SSH URLs for your repositories instead of HTTPS URLs. This is the most common cause of this issue.
+Check your remote URL:
+```bash
+git remote -v
+```
+If you see URLs starting with https://, you need to change them to SSH URLs. The URLs should look like:
+- HTTPS: https://github.com/username/repo.git (will ask for password)
+- SSH: git@github.com:username/repo.git (will use SSH key)
+To change from HTTPS to SSH, use this command:
+```bash
+git remote set-url origin git@github.com:username/repo.git
+```
