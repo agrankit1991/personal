@@ -106,7 +106,7 @@ brew install --cask discord
 brew install --cask notion
 brew install --cask kindle
 brew install --cask obsidian
-brew install --cask caffeine
+brew install --cask keepingyouawake
 brew install --cask alfred
 brew install --cask vlc
 brew install --cask tradingview
