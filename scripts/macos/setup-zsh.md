@@ -85,6 +85,8 @@ export BAT_STYLE="full"
 # FD (find) settings
 export FD_OPTIONS="--follow --exclude .git --exclude node_modules"
 
+# Hide brew hints
+export HOMEBREW_NO_ENV_HINTS=1
 
 # Directory shortcuts
 alias ..='cd ..'
