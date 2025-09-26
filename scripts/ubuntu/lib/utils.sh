@@ -120,9 +120,22 @@ box() {
     local total_width=$((width + padding * 2))
     
     echo -e "${HEADER}"
-    printf "╔%*s╗\n" $((total_width)) | tr ' ' '═'
-    printf "║%*s%s%*s║\n" $padding "" "$text" $padding ""
-    printf "╚%*s╝\n" $((total_width)) | tr ' ' '═'
+    # Top border
+    printf "╔"
+    for ((i=0; i<total_width; i++)); do printf "═"; done
+    printf "╗\n"
+    
+    # Middle with text
+    printf "║"
+    for ((i=0; i<padding; i++)); do printf " "; done
+    printf "%s" "$text"
+    for ((i=0; i<padding; i++)); do printf " "; done
+    printf "║\n"
+    
+    # Bottom border
+    printf "╚"
+    for ((i=0; i<total_width; i++)); do printf "═"; done
+    printf "╝\n"
     echo -e "${NC}"
 }
 
