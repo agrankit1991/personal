@@ -24,7 +24,8 @@ export HOMEBREW_NO_ENV_HINTS=1
 # Modern Unix replacements
 alias gs='git status'
 alias please='sudo'
-alias ls='eza --icons --group-directories-first -l --sort=modified --reverse'
+alias ls='eza --icons  -l --sort=modified --git'
+alias la='eza --icons  -la --sort=modified --git'
 alias cd='z'
 alias wp='cd /home/$USER/Developer && ls'
 
@@ -33,7 +34,7 @@ alias find='fd'
 alias grep='rg'
 alias du='ncdu'
 alias df='duf'
-alias top='htop'
+alias top='btop'
 
 # Bat specific settings
 export BAT_THEME="Dracula"
