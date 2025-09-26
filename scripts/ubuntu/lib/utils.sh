@@ -260,6 +260,15 @@ remove_line_from_file() {
     fi
 }
 
+# Check if nala is available
+check_nala() {
+    if ! command_exists nala; then
+        error "Nala is not installed. Please run 'System Update & Nala Installation' first."
+        return 1
+    fi
+    return 0
+}
+
 # Export functions and variables that should be available to sourcing scripts
 export -f log warn error info success highlight header
 export -f show_progress show_success show_error show_warning
@@ -267,4 +276,4 @@ export -f command_exists package_installed is_root is_user confirm
 export -f separator box simple_header pause
 export -f get_os_info is_ubuntu get_ubuntu_version check_internet
 export -f backup_file ensure_dir download_file
-export -f add_line_to_file remove_line_from_file
+export -f add_line_to_file remove_line_from_file check_nala
