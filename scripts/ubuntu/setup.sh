@@ -68,7 +68,7 @@ show_menu() {
     echo " 8.  Install Database Tools"
     echo " 9.  Install Other Applications"
     echo " 10. System Cleanup"
-    echo " 11. Exit"
+    echo " q.  Exit"
     echo
     echo -e "${WARNING}Note: Each option runs independently. You can run multiple options.${NC}"
     echo
@@ -80,7 +80,7 @@ main() {
     
     while true; do
         show_menu
-        read -p "Please select an option (1-11): " choice
+        read -p "Please select an option (1-10, q): " choice
         echo
         
         case $choice in
@@ -114,12 +114,12 @@ main() {
             10)
                 run_module "system-cleanup" "System Cleanup"
                 ;;
-            11)
+            q|Q)
                 log "Exiting setup script. Goodbye!"
                 exit 0
                 ;;
             *)
-                error "Invalid option. Please select a number between 1 and 11."
+                error "Invalid option. Please select a number between 1-10 or 'q' to exit."
                 ;;
         esac
         
