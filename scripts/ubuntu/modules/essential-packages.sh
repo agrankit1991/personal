@@ -21,6 +21,7 @@ SYSTEM_ESSENTIALS=(
     "tree"              # Directory listing
     "gnupg"             # GNU Privacy Guard
     "lsb-release"       # LSB release information
+    "flatpak"           # Universal package manager
 )
 
 BUILD_ESSENTIALS=(
@@ -88,6 +89,25 @@ install_fastfetch() {
     fi
 }
 
+# Setup Flatpak and Flathub repository
+setup_flatpak() {
+    if ! command_exists flatpak; then
+        warn "Flatpak should have been installed with system essentials"
+        return 1
+    fi
+    
+    show_progress "Setting up Flathub repository"
+    
+    # Add Flathub repository
+    if ! flatpak remotes | grep -q flathub; then
+        sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+        show_success "Flathub repository added"
+        info "Flatpak is ready for use. You may need to restart your session for GUI integration."
+    else
+        info "Flathub repository is already configured"
+    fi
+}
+
 # Install package group
 install_package_group() {
     local group_name="$1"
@@ -150,6 +170,7 @@ show_summary() {
     command_exists tree && echo "  ✅ Tree"
     command_exists cmake && echo "  ✅ CMake"
     command_exists jq && echo "  ✅ JQ"
+    command_exists flatpak && echo "  ✅ Flatpak"
     command_exists fastfetch && echo "  ✅ Fastfetch"
     command_exists ffmpeg && echo "  ✅ FFmpeg"
     command_exists gufw && echo "  ✅ Firewall GUI (GUFW)"
@@ -178,6 +199,7 @@ main() {
     echo "   • curl, wget - Download utilities"
     echo "   • git - Version control system"
     echo "   • btop, tree - System monitoring and file navigation"
+    echo "   • flatpak - Universal package manager with Flathub setup"
     echo "   • fastfetch - System information display (with PPA)"
     echo
     echo "🔧 Build Essentials:"
@@ -229,10 +251,13 @@ main() {
     install_package_group "Firewall Essentials" FIREWALL_ESSENTIALS
     install_package_group "Text Processing Essentials" TEXT_PROCESSING_ESSENTIALS
     
-    # Install fastfetch with PPA
+    # Install fastfetch with PPA and setup Flatpak
     echo
     simple_header "Special Installations"
     install_fastfetch
+    
+    echo
+    setup_flatpak
     
     show_summary
 }
