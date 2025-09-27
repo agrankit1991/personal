@@ -16,10 +16,11 @@ source "$LIB_DIR/utils.sh"
 SYSTEM_ESSENTIALS=(
     "curl"              # HTTP client
     "wget"              # Download utility
+    "gpg"               # GNU Privacy Guard (command)
+    "gnupg"             # GNU Privacy Guard (full package)
     "git"               # Version control
     "btop"              # Better system monitor
     "tree"              # Directory listing
-    "gnupg"             # GNU Privacy Guard
     "lsb-release"       # LSB release information
     "flatpak"           # Universal package manager
 )
