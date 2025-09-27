@@ -10,15 +10,9 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set plugins
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions k z)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions k)
 
 source $ZSH/oh-my-zsh.sh
-
-# User configuration
-export LANG=en_US.UTF-8
-export EDITOR='code'
-
-export HOMEBREW_NO_ENV_HINTS=1
 
 
 # Modern Unix replacements
