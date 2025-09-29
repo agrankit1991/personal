@@ -7,8 +7,22 @@
 # LazyVim is a modern Neovim configuration framework that provides:
 # - Fast startup with lazy loading
 # - Pre-configured plugins for development
-# - Beautiful UI with themes and statusline
-# - LSP support for code completion and analysis
+# - Beautiful UI with themes and sta    # Verify installation
+    if command_exists lazygit; then
+        local installed_version
+        installed_version=$(lazygit --version 2>/dev/null | head -1 | cut -d',' -f1 | cut -d'=' -f2)
+        show_success "🎉 lazygit v$installed_version installed successfully"
+        
+        info "🎯 Usage in LazyVim:"
+        echo "  • Press <Space>gg to open lazygit"
+        echo "  • Press <Space>gG to open lazygit for current file"
+        echo "  • Press <Space>gb for git blame"
+        echo "  • Run 'lazygit' in terminal for standalone use"
+    else
+        warn "⚠️  lazygit installation verification failed"
+        info "💡 The binary should be installed in /usr/local/bin/"
+        info "Try running: /usr/local/bin/lazygit --version"
+    fi
 # - File explorer, fuzzy finder, and Git integration
 # ===================================================================
 
@@ -355,6 +369,112 @@ install_lazyvim_plugins() {
 }
 
 # ===================================================================
+# LAZYGIT INSTALLATION
+# ===================================================================
+# Installs lazygit for enhanced Git workflow integration with LazyVim
+install_lazygit() {
+    show_progress "Installing lazygit from GitHub releases"
+    
+    info "🔧 lazygit provides a terminal UI for git commands"
+    info "LazyVim includes built-in lazygit integration with <leader>gg keybinding"
+    
+    # Check if lazygit is already installed
+    if command_exists lazygit; then
+        local lazygit_version
+        lazygit_version=$(lazygit --version 2>/dev/null | head -1 | cut -d',' -f1 | cut -d'=' -f2)
+        success "✅ lazygit is already installed: $lazygit_version"
+        
+        if ! confirm "Do you want to reinstall lazygit to get the latest version?"; then
+            return 0
+        fi
+    fi
+    
+    # Check dependencies
+    if ! command_exists curl; then
+        error "curl is required to download lazygit"
+        if ! sudo nala install -y curl; then
+            error "Failed to install curl"
+            return 1
+        fi
+    fi
+    
+    # Create temporary directory for download
+    local temp_dir=$(mktemp -d)
+    cd "$temp_dir" || return 1
+    
+    # Get latest version from GitHub API
+    info "📥 Fetching latest lazygit version..."
+    local LAZYGIT_VERSION
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \
+        grep -Po '"tag_name": *"v\K[^"]*')
+    
+    if [[ -z "$LAZYGIT_VERSION" ]]; then
+        error "Failed to fetch lazygit version from GitHub API"
+        rm -rf "$temp_dir"
+        return 1
+    fi
+    
+    info "📦 Downloading lazygit v$LAZYGIT_VERSION..."
+    
+    # Download latest release tarball
+    if curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"; then
+        show_success "lazygit tarball downloaded successfully"
+    else
+        error "Failed to download lazygit tarball"
+        rm -rf "$temp_dir"
+        return 1
+    fi
+    
+    # Extract lazygit binary
+    info "📦 Extracting lazygit binary..."
+    if tar xf lazygit.tar.gz lazygit; then
+        show_success "lazygit binary extracted successfully"
+    else
+        error "Failed to extract lazygit binary"
+        rm -rf "$temp_dir"
+        return 1
+    fi
+    
+    # Install to system directory
+    info "⚙️  Installing lazygit to /usr/local/bin/..."
+    if sudo install lazygit -D -t /usr/local/bin/; then
+        show_success "✅ lazygit installed successfully"
+    else
+        error "Failed to install lazygit to system directory"
+        rm -rf "$temp_dir"
+        return 1
+    fi
+    
+    # Clean up temporary files
+    cd - > /dev/null
+    rm -rf "$temp_dir"
+    
+    # Create empty lazygit config file to prevent config errors
+    info "📁 Creating lazygit configuration directory and empty config file..."
+    mkdir -p "$HOME/.config/lazygit"
+    touch "$HOME/.config/lazygit/config.yml"
+    show_success "✅ Empty lazygit config file created"
+    
+    # Verify installation
+    if command_exists lazygit; then
+        local installed_version
+        installed_version=$(lazygit --version 2>/dev/null | head -1 | cut -d',' -f1 | cut -d'=' -f2)
+        show_success "🎉 lazygit installed successfully: $installed_version"
+        
+        info "🎯 Usage in LazyVim:"
+        echo "  • Press <Space>gg to open lazygit"
+        echo "  • Press <Space>gG to open lazygit for current file"
+        echo "  • Press <Space>gb for git blame"
+        echo "  • Run 'lazygit' in terminal for standalone use"
+    else
+        warn "⚠️  lazygit installation verification failed"
+        info "� You can try installing manually: sudo nala install lazygit"
+    fi
+    
+    return 0
+}
+
+# ===================================================================
 # LAZYVIM INFORMATION
 # ===================================================================
 # Shows helpful information about using LazyVim
@@ -375,6 +495,16 @@ show_lazyvim_info() {
     echo "  • Find files: <Space><Space> or <Space>ff"
     echo "  • Live grep: <Space>sg"
     echo "  • Recent files: <Space>fr"
+    
+    # Show lazygit info if installed
+    if command_exists lazygit; then
+        echo
+        info "🔧 Git Integration (lazygit):"
+        echo "  • Open lazygit: <Space>gg"
+        echo "  • Current file git: <Space>gG"
+        echo "  • Git blame: <Space>gb"
+        echo "  • Standalone: lazygit (in terminal)"
+    fi
     
     echo
     info "⚙️  Plugin Management:"
@@ -465,8 +595,20 @@ install_lazyvim_setup() {
     info "📦 Step 4: Installing plugins..."
     install_lazyvim_plugins
     
-    # Step 5: Show completion info
-    info "✅ Step 5: Setup complete!"
+    # Step 5: Optional lazygit installation
+    echo
+    info "🔧 Step 5: Git Integration (Optional)"
+    if confirm "Do you want to install lazygit for enhanced Git workflow?"; then
+        install_lazygit
+    else
+        info "Skipping lazygit installation"
+        info "💡 LazyVim includes git integration, lazygit provides a better terminal UI"
+        info "You can install it later with: sudo nala install lazygit"
+    fi
+    
+    # Step 6: Show completion info
+    echo
+    info "✅ Step 6: Setup complete!"
     show_lazyvim_info
     
     return 0
