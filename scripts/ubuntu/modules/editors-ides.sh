@@ -8,9 +8,15 @@ set -e
 # Get script directory and source utilities
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIB_DIR="$(dirname "$SCRIPT_DIR")/lib"
+LAZYVIM_FUNCTIONS_DIR="$SCRIPT_DIR/editors-ides/functions"
 
 # Source utilities and colors
 source "$LIB_DIR/utils.sh"
+
+# Source LazyVim functions if available
+if [[ -f "$LAZYVIM_FUNCTIONS_DIR/lazyvim-setup.sh" ]]; then
+    source "$LAZYVIM_FUNCTIONS_DIR/lazyvim-setup.sh"
+fi
 
 # Install Visual Studio Code
 install_vscode() {
@@ -500,6 +506,17 @@ show_editors_summary() {
         echo "    └─ Launch: windsurf"
     fi
     
+    # LazyVim (Neovim configuration)
+    if command_exists nvim && [[ -d "$HOME/.config/nvim" ]]; then
+        echo "  ✅ LazyVim - Modern Neovim configuration"
+        echo "    └─ Launch: nvim"
+        
+        # Check if LazyVim is installed by looking for lazy.nvim
+        if [[ -d "$HOME/.local/share/nvim/lazy/lazy.nvim" ]]; then
+            echo "    └─ Status: LazyVim configured with plugins"
+        fi
+    fi
+    
     # IntelliJ IDEA Community Edition
     if command_exists idea || [[ -d "/opt/idea-IC"* ]] || flatpak list 2>/dev/null | grep -q "com.jetbrains.IntelliJ-IDEA-Community"; then
         echo "  ✅ IntelliJ IDEA Community Edition"
@@ -544,6 +561,7 @@ main() {
     echo "   • Visual Studio Code - Lightweight, extensible code editor"
     echo "   • Cursor - AI-powered code editor (VS Code fork with built-in AI)"
     echo "   • Windsurf - AI-native code editor by Codeium"
+    echo "   • LazyVim - Modern Neovim configuration with plugins"
     echo "   • Popular extensions for web development, Python, etc."
     echo
     echo "🏗️  Integrated Development Environments:"
@@ -585,6 +603,14 @@ main() {
     # Install Windsurf (AI-native code editor)
     echo
     install_windsurf
+    
+    # Install LazyVim (Modern Neovim configuration)
+    echo
+    if command -v install_lazyvim_setup >/dev/null 2>&1; then
+        install_lazyvim_setup
+    else
+        warn "LazyVim setup function not available"
+    fi
     
     # Install IntelliJ IDEA Community Edition
     echo
