@@ -1,0 +1,301 @@
+# ===============================
+# Development Server Functions
+# ===============================
+# Quick commands to start various development servers
+
+# -----------------------------------------------
+# Spring Boot Servers
+# -----------------------------------------------
+
+# Start Spring Boot with Gradle
+function bootrun() {
+    if [[ -f "build.gradle" || -f "build.gradle.kts" ]]; then
+        echo "🚀 Starting Spring Boot (Gradle)..."
+        ./gradlew bootRun
+    elif [[ -f "gradlew" ]]; then
+        echo "🚀 Starting Spring Boot (Gradle)..."
+        ./gradlew bootRun
+    else
+        echo "❌ Error: No Gradle project found"
+        echo "💡 Looking for: build.gradle or build.gradle.kts"
+        return 1
+    fi
+}
+
+# Start Spring Boot with Maven
+function mvnboot() {
+    if [[ -f "pom.xml" ]]; then
+        echo "🚀 Starting Spring Boot (Maven)..."
+        ./mvnw spring-boot:run
+    else
+        echo "❌ Error: No Maven project found"
+        echo "💡 Looking for: pom.xml"
+        return 1
+    fi
+}
+
+# Auto-detect and start Spring Boot (Gradle or Maven)
+function bootstart() {
+    if [[ -f "build.gradle" || -f "build.gradle.kts" ]]; then
+        bootrun
+    elif [[ -f "pom.xml" ]]; then
+        mvnboot
+    else
+        echo "❌ Error: No Spring Boot project found"
+        echo "💡 Supported: Gradle (build.gradle) or Maven (pom.xml)"
+        return 1
+    fi
+}
+
+# -----------------------------------------------
+# Node.js / JavaScript Servers
+# -----------------------------------------------
+
+# Start Next.js development server
+function nextdev() {
+    if [[ -f "package.json" ]]; then
+        if grep -q "next" package.json; then
+            echo "🚀 Starting Next.js dev server..."
+            npm run dev
+        else
+            echo "❌ Error: Not a Next.js project"
+            return 1
+        fi
+    else
+        echo "❌ Error: No package.json found"
+        return 1
+    fi
+}
+
+# Start React development server
+function reactdev() {
+    if [[ -f "package.json" ]]; then
+        if grep -q "react-scripts" package.json; then
+            echo "🚀 Starting React dev server..."
+            npm start
+        elif grep -q "react" package.json; then
+            echo "🚀 Starting React dev server..."
+            npm run dev 2>/dev/null || npm start
+        else
+            echo "❌ Error: Not a React project"
+            return 1
+        fi
+    else
+        echo "❌ Error: No package.json found"
+        return 1
+    fi
+}
+
+# Start Vite development server
+function vitedev() {
+    if [[ -f "package.json" ]]; then
+        if grep -q "vite" package.json; then
+            echo "🚀 Starting Vite dev server..."
+            npm run dev
+        else
+            echo "❌ Error: Not a Vite project"
+            return 1
+        fi
+    else
+        echo "❌ Error: No package.json found"
+        return 1
+    fi
+}
+
+# Start Angular development server
+function ngdev() {
+    if [[ -f "package.json" ]]; then
+        if grep -q "@angular/core" package.json; then
+            echo "🚀 Starting Angular dev server..."
+            npm run start
+        else
+            echo "❌ Error: Not an Angular project"
+            return 1
+        fi
+    else
+        echo "❌ Error: No package.json found"
+        return 1
+    fi
+}
+
+# Start Vue.js development server
+function vuedev() {
+    if [[ -f "package.json" ]]; then
+        if grep -q "vue" package.json; then
+            echo "🚀 Starting Vue.js dev server..."
+            npm run serve 2>/dev/null || npm run dev
+        else
+            echo "❌ Error: Not a Vue.js project"
+            return 1
+        fi
+    else
+        echo "❌ Error: No package.json found"
+        return 1
+    fi
+}
+
+# Generic npm dev server (tries common scripts)
+function npmdev() {
+    if [[ -f "package.json" ]]; then
+        echo "🚀 Starting development server..."
+        
+        # Try common dev scripts in order
+        if grep -q '"dev"' package.json; then
+            npm run dev
+        elif grep -q '"start:dev"' package.json; then
+            npm run start:dev
+        elif grep -q '"serve"' package.json; then
+            npm run serve
+        elif grep -q '"start"' package.json; then
+            npm start
+        else
+            echo "❌ Error: No dev script found in package.json"
+            echo "📋 Available scripts:"
+            npm run
+            return 1
+        fi
+    else
+        echo "❌ Error: No package.json found"
+        return 1
+    fi
+}
+
+# -----------------------------------------------
+# Python Servers
+# -----------------------------------------------
+
+# Start Django development server
+function djangodev() {
+    if [[ -f "manage.py" ]]; then
+        echo "🚀 Starting Django dev server..."
+        python manage.py runserver
+    else
+        echo "❌ Error: No Django project found (manage.py missing)"
+        return 1
+    fi
+}
+
+# Start Flask development server
+function flaskdev() {
+    if [[ -f "app.py" || -f "wsgi.py" || -f "application.py" ]]; then
+        echo "🚀 Starting Flask dev server..."
+        export FLASK_ENV=development
+        flask run
+    else
+        echo "❌ Error: No Flask app found"
+        echo "💡 Looking for: app.py, wsgi.py, or application.py"
+        return 1
+    fi
+}
+
+# Start FastAPI development server
+function fastapidev() {
+    if [[ -f "main.py" ]]; then
+        if grep -q "fastapi" main.py; then
+            echo "🚀 Starting FastAPI dev server..."
+            uvicorn main:app --reload
+        else
+            echo "❌ Error: main.py found but doesn't appear to be FastAPI"
+            return 1
+        fi
+    else
+        echo "❌ Error: No main.py found"
+        return 1
+    fi
+}
+
+# -----------------------------------------------
+# Smart Auto-Detection
+# -----------------------------------------------
+
+# Auto-detect project type and start dev server
+function devstart() {
+    echo "🔍 Auto-detecting project type..."
+    
+    # Check for Spring Boot
+    if [[ -f "build.gradle" || -f "build.gradle.kts" || -f "pom.xml" ]]; then
+        if grep -r "spring-boot" . 2>/dev/null | head -1 | grep -q "spring-boot"; then
+            echo "✅ Detected: Spring Boot project"
+            bootstart
+            return
+        fi
+    fi
+    
+    # Check for Python frameworks
+    if [[ -f "manage.py" ]]; then
+        echo "✅ Detected: Django project"
+        djangodev
+        return
+    fi
+    
+    if [[ -f "app.py" || -f "wsgi.py" ]]; then
+        echo "✅ Detected: Flask project"
+        flaskdev
+        return
+    fi
+    
+    # Check for Node.js frameworks
+    if [[ -f "package.json" ]]; then
+        if grep -q "next" package.json; then
+            echo "✅ Detected: Next.js project"
+            nextdev
+        elif grep -q "react-scripts" package.json; then
+            echo "✅ Detected: Create React App project"
+            reactdev
+        elif grep -q "vite" package.json; then
+            echo "✅ Detected: Vite project"
+            vitedev
+        elif grep -q "@angular/core" package.json; then
+            echo "✅ Detected: Angular project"
+            ngdev
+        elif grep -q "vue" package.json; then
+            echo "✅ Detected: Vue.js project"
+            vuedev
+        else
+            echo "✅ Detected: Node.js project"
+            npmdev
+        fi
+        return
+    fi
+    
+    echo "❌ Could not detect project type"
+    echo ""
+    echo "💡 Supported frameworks:"
+    echo "   Java: Spring Boot (Gradle/Maven)"
+    echo "   JavaScript: Next.js, React, Vue, Angular, Vite"
+    echo "   Python: Django, Flask, FastAPI"
+    echo ""
+    echo "💡 Manual commands available:"
+    echo "   bootrun, mvnboot, nextdev, reactdev, vuedev,"
+    echo "   djangodev, flaskdev, fastapidev"
+    return 1
+}
+
+# -----------------------------------------------
+# Build Commands
+# -----------------------------------------------
+
+# Build Spring Boot JAR
+function bootbuild() {
+    if [[ -f "build.gradle" || -f "build.gradle.kts" ]]; then
+        echo "🔨 Building Spring Boot JAR (Gradle)..."
+        ./gradlew clean build
+    elif [[ -f "pom.xml" ]]; then
+        echo "🔨 Building Spring Boot JAR (Maven)..."
+        ./mvnw clean package
+    else
+        echo "❌ Error: No Spring Boot project found"
+        return 1
+    fi
+}
+
+# Build Node.js production bundle
+function npmbuild() {
+    if [[ -f "package.json" ]]; then
+        echo "🔨 Building production bundle..."
+        npm run build
+    else
+        echo "❌ Error: No package.json found"
+        return 1
+    fi
+}

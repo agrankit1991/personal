@@ -60,11 +60,21 @@ setup_modular_zsh_config() {
         return 1
     fi
     
+    # Create dev-servers file from template
+    if [[ -f "$template_dir/dev-servers.zsh.template" ]]; then
+        cp "$template_dir/dev-servers.zsh.template" "$zsh_config_dir/dev-servers.zsh"
+        info "Created ~/.config/zsh/dev-servers.zsh from template"
+    else
+        show_error "Template file not found: $template_dir/dev-servers.zsh.template"
+        return 1
+    fi
+    
     info "Created modular configuration files:"
     echo "  📁 ~/.zshrc - Main configuration"
     echo "  📁 ~/.config/zsh/aliases.zsh - Command aliases"
     echo "  📁 ~/.config/zsh/exports.zsh - Environment variables"
     echo "  📁 ~/.config/zsh/functions.zsh - Custom functions"
+    echo "  📁 ~/.config/zsh/dev-servers.zsh - Development server shortcuts"
     
     show_success "Modular Zsh configuration created successfully"
     echo
