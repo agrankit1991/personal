@@ -62,29 +62,25 @@ setup_powerlevel10k_config() {
         return 1
     fi
     
-    if ! confirm "Do you want to copy your existing Powerlevel10k configuration?"; then
-        warn "Skipping Powerlevel10k configuration copy"
-        return 0
-    fi
-    
     # Check if the user's p10k config exists in dotfiles
     # Use relative path from the script's location
     local script_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
     local dotfiles_p10k="$script_root/dotfiles/.p10k.zsh"
     
     if [[ -f "$dotfiles_p10k" ]]; then
-        show_progress "Copying Powerlevel10k configuration from dotfiles"
-        
-        # Backup existing p10k config if it exists
-        [[ -f ~/.p10k.zsh ]] && backup_file ~/.p10k.zsh
-        
-        # Copy the configuration
-        cp "$dotfiles_p10k" ~/.p10k.zsh
-        
-        show_success "Powerlevel10k configuration copied successfully"
-        info "Configuration file: ~/.p10k.zsh"
+        if confirm "Copy Powerlevel10k configuration from dotfiles?"; then
+            show_progress "Copying Powerlevel10k configuration"
+            
+            # Backup existing p10k config if it exists
+            [[ -f ~/.p10k.zsh ]] && backup_file ~/.p10k.zsh
+            
+            # Copy the configuration
+            cp "$dotfiles_p10k" ~/.p10k.zsh
+            
+            show_success "Powerlevel10k configuration copied"
+            info "Configuration file: ~/.p10k.zsh"
+        fi
     else
-        warn "Powerlevel10k configuration not found in dotfiles"
         info "You can run 'p10k configure' later to set up your prompt"
     fi
     

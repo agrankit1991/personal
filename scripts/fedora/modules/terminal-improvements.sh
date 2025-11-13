@@ -1,16 +1,23 @@
 #!/bin/bash
 
-# Terminal Improvements Module
-# Installs modern CLI tools and terminal enhancements
+# Terminal Improvements Module - Main Entry Point
+# Installs modern CLI tools, Oh My Zsh, and terminal enhancements
 
 set -e
 
 # Get script directory and source utilities
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIB_DIR="$(dirname "$SCRIPT_DIR")/lib"
+FUNCTIONS_DIR="$SCRIPT_DIR/terminal-improvements/functions"
 
 # Source utilities and colors
 source "$LIB_DIR/utils.sh"
+
+# Source modular functions
+source "$FUNCTIONS_DIR/cli-tools.sh"
+source "$FUNCTIONS_DIR/oh-my-zsh.sh"
+source "$FUNCTIONS_DIR/powerlevel10k.sh"
+source "$FUNCTIONS_DIR/zsh-config.sh"
 
 # Modern CLI tools
 CLI_TOOLS=(
@@ -25,131 +32,6 @@ CLI_TOOLS=(
     "tldr:Simplified man pages"
     "htop:Interactive process viewer"
 )
-
-# Install CLI tools
-install_cli_tools() {
-    simple_header "Modern CLI Tools Installation"
-    
-    for tool_info in "${CLI_TOOLS[@]}"; do
-        local tool_name="${tool_info%%:*}"
-        local tool_desc="${tool_info##*:}"
-        
-        if dnf_package_installed "$tool_name"; then
-            info "$tool_desc is already installed"
-        else
-            install_dnf_package "$tool_name" "$tool_desc"
-        fi
-    done
-    
-    echo
-}
-
-# Install Oh My Zsh
-install_oh_my_zsh() {
-    simple_header "Oh My Zsh Installation"
-    
-    if [[ -d "$HOME/.oh-my-zsh" ]]; then
-        info "Oh My Zsh is already installed"
-        return 0
-    fi
-    
-    if ! command_exists zsh; then
-        if confirm "Zsh is not installed. Install it now?"; then
-            install_dnf_package "zsh" "Z Shell"
-        else
-            warn "Oh My Zsh requires Zsh. Skipping."
-            return 1
-        fi
-    fi
-    
-    if confirm "Install Oh My Zsh?"; then
-        show_progress "Installing Oh My Zsh"
-        
-        # Download and install Oh My Zsh
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-        
-        if [[ -d "$HOME/.oh-my-zsh" ]]; then
-            show_success "Oh My Zsh installed successfully"
-        else
-            show_error "Failed to install Oh My Zsh"
-            return 1
-        fi
-    else
-        warn "Skipping Oh My Zsh installation"
-    fi
-    
-    echo
-}
-
-# Install Oh My Zsh plugins
-install_oh_my_zsh_plugins() {
-    simple_header "Oh My Zsh Plugins"
-    
-    if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-        warn "Oh My Zsh is not installed. Skipping plugins."
-        return 0
-    fi
-    
-    local ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-    
-    # zsh-autosuggestions
-    if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
-        if confirm "Install zsh-autosuggestions plugin?"; then
-            show_progress "Installing zsh-autosuggestions"
-            git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
-            show_success "zsh-autosuggestions installed"
-        fi
-    else
-        info "zsh-autosuggestions is already installed"
-    fi
-    
-    # zsh-syntax-highlighting
-    if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
-        if confirm "Install zsh-syntax-highlighting plugin?"; then
-            show_progress "Installing zsh-syntax-highlighting"
-            git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
-            show_success "zsh-syntax-highlighting installed"
-        fi
-    else
-        info "zsh-syntax-highlighting is already installed"
-    fi
-    
-    echo
-}
-
-# Install Powerlevel10k theme
-install_powerlevel10k() {
-    simple_header "Powerlevel10k Theme"
-    
-    if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-        warn "Oh My Zsh is not installed. Skipping Powerlevel10k."
-        return 0
-    fi
-    
-    local ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-    
-    if [[ -d "$ZSH_CUSTOM/themes/powerlevel10k" ]]; then
-        info "Powerlevel10k is already installed"
-        return 0
-    fi
-    
-    if confirm "Install Powerlevel10k theme?"; then
-        show_progress "Installing Powerlevel10k"
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
-        
-        if [[ -d "$ZSH_CUSTOM/themes/powerlevel10k" ]]; then
-            show_success "Powerlevel10k installed successfully"
-            info "To use Powerlevel10k, set ZSH_THEME=\"powerlevel10k/powerlevel10k\" in ~/.zshrc"
-        else
-            show_error "Failed to install Powerlevel10k"
-            return 1
-        fi
-    else
-        warn "Skipping Powerlevel10k installation"
-    fi
-    
-    echo
-}
 
 # Configure Zsh as default shell
 set_zsh_default() {
@@ -179,25 +61,6 @@ set_zsh_default() {
     echo
 }
 
-# Show usage tips
-show_usage_tips() {
-    simple_header "Usage Tips"
-    
-    info "Modern CLI tool replacements:"
-    echo "  rg <pattern>        - Search files (replaces grep)"
-    echo "  fd <pattern>        - Find files (replaces find)"
-    echo "  bat <file>          - View file with syntax highlighting (replaces cat)"
-    echo "  eza -la             - List files with colors (replaces ls)"
-    echo "  z <dir>             - Jump to directory (smart cd)"
-    echo "  duf                 - View disk usage (replaces df)"
-    echo "  ncdu                - Interactive disk usage"
-    echo
-    info "After installing Oh My Zsh:"
-    echo "  Restart your terminal or run: exec zsh"
-    echo "  Configure Powerlevel10k: p10k configure"
-    echo
-}
-
 main() {
     box "Terminal Improvements"
     
@@ -221,13 +84,19 @@ main() {
     install_oh_my_zsh_plugins
     
     # Install Powerlevel10k
-    install_powerlevel10k
+    install_powerlevel10k_theme
+    
+    # Setup modular Zsh configuration
+    setup_modular_zsh_config
+    
+    # Copy Powerlevel10k configuration
+    setup_powerlevel10k_config
     
     # Set Zsh as default
     set_zsh_default
     
     # Show tips
-    show_usage_tips
+    show_terminal_tips
     
     show_success "Terminal improvements installation completed"
 }
