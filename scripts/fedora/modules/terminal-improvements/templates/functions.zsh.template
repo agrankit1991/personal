@@ -45,7 +45,7 @@ function proj() {
     if [[ -z "$1" ]]; then
         cd ~/Developer && ls
     else
-        cd ~/Developer/"$1"
+        cd ~/Developer/"$1" && ls
     fi
 }
 
