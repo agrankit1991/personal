@@ -6,8 +6,8 @@
 export FD_OPTIONS="--follow --exclude .git --exclude node_modules"
 
 # Editor preference
-export EDITOR="vim"
-export VISUAL="vim"
+export EDITOR="code"
+export VISUAL="code"
 
 # History settings
 export HISTSIZE=10000
