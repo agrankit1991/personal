@@ -21,6 +21,9 @@ source $ZSH/oh-my-zsh.sh
 [[ -f ~/.config/zsh/functions.zsh ]] && source ~/.config/zsh/functions.zsh
 [[ -f ~/.config/zsh/dev-servers.zsh ]] && source ~/.config/zsh/dev-servers.zsh
 
+# Initialize SDKMAN
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
 # Initialize zoxide (smart cd)
 if command -v zoxide &> /dev/null; then
     eval "$(zoxide init zsh)"
