@@ -19,7 +19,7 @@ sudo nala install git
 Set your identity:
 ```bash
 git config --global user.name "Ankit Agrawal"
-git config --global user.email "ankitagrawal1991@gmail.com"
+git config --global user.email "hiankit+github@gmail.com"
 ```
 
 ## 3. Configure Default Settings
@@ -49,7 +49,7 @@ git config --global pull.rebase true      # Use rebase
 
 ```bash
 # Generate SSH key
-ssh-keygen -t ed25519 -C "ankitagrawal1991@gmail.com"
+ssh-keygen -t ed25519 -C "hiankit+github@gmail.com"
 
 # Start ssh-agent in the background
 eval "$(ssh-agent -s)"
