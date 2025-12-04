@@ -19,6 +19,12 @@ alias pgstart="pg_ctl -D ~/.local/share/postgres -l logfile start"
 alias pgstop="pg_ctl -D ~/.local/share/postgres stop"
 alias pgstatus="pg_ctl -D ~/.local/share/postgres status"
 
+psql
+CREATE ROLE postgres WITH LOGIN SUPERUSER PASSWORD 'postgres';
+CREATE ROLE bawandar WITH LOGIN CREATEDB PASSWORD 'password';
+ALTER ROLE bawandar WITH SUPERUSER;
+CREATE DATABASE artha_sagar OWNER bawandar;
+
 -------------------------
 
 # Prevent SSH timeout
