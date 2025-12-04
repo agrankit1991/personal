@@ -72,3 +72,15 @@ alias install='sudo dnf install'
 alias remove='sudo dnf remove'
 alias search='dnf search'
 alias cleanup='sudo dnf autoremove && sudo dnf clean all'
+
+# Ubuntu-specific aliases
+# alias update='sudo nala update && sudo nala upgrade'
+# alias install='sudo nala install'
+# alias remove='sudo nala remove'
+# alias search='nala search'
+# alias cleanup='sudo nala autoremove && sudo nala clean'
+
+# PostgreSQL aliases
+alias pgstart="pg_ctl -D ~/.local/share/postgres -l logfile start"
+alias pgstop="pg_ctl -D ~/.local/share/postgres stop"
+alias pgstatus="pg_ctl -D ~/.local/share/postgres status"

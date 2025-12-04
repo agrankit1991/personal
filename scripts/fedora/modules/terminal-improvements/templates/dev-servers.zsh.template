@@ -70,28 +70,28 @@ _start_nextjs() {
 function start-server() {
     echo "🔍 Detecting project type..."
     echo ""
-    
+
     # Check for Spring Boot with Gradle
     if _is_spring_boot && _is_gradle; then
         echo "✅ Detected: Spring Boot (Gradle)"
         _start_gradle_boot
         return $?
     fi
-    
+
     # Check for Spring Boot with Maven
     if _is_spring_boot && _is_maven; then
         echo "✅ Detected: Spring Boot (Maven)"
         _start_maven_boot
         return $?
     fi
-    
+
     # Check for Next.js
     if _is_nextjs; then
         echo "✅ Detected: Next.js"
         _start_nextjs
         return $?
     fi
-    
+
     # No supported project found
     echo "❌ Could not detect a supported project type"
     echo ""
@@ -103,3 +103,5 @@ function start-server() {
     echo "� Make sure you're in the project root directory"
     return 1
 }
+
+alias ss='start-server'
