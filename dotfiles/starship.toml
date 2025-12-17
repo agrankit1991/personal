@@ -3,7 +3,6 @@
 format = """
 [](red)\
 $os\
-$username\
 [](bg:peach fg:red)\
 $directory\
 [](bg:yellow fg:peach)\
@@ -19,12 +18,11 @@ $java\
 $kotlin\
 $haskell\
 $python\
-[](fg:green bg:sapphire)\
-$conda\
-[](fg:sapphire)\
+[](fg:green)\
 $cmd_duration\
 $line_break\
-$character"""
+$character
+"""
 
 right_format = """
 [](fg:lavender)\
