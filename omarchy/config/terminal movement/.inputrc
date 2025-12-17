@@ -1,0 +1,24 @@
+# ==================================================
+# MOVEMENT
+# ==================================================
+
+# Alt + Arrow  → word movement
+"\e[1;3D": backward-word      # Alt + Left  → move by word (back)
+"\e[1;3C": forward-word       # Alt + Right → move by word (forward)
+
+# Ctrl + Arrow → line movement
+"\e[1;5D": beginning-of-line  # Ctrl + Left  → move to line start
+"\e[1;5C": end-of-line        # Ctrl + Right → move to line end
+
+
+# ==================================================
+# DELETION
+# ==================================================
+
+# Alt + Backspace / Delete → word deletion
+"\e\C-?": backward-kill-word  # Alt + Backspace → delete previous word
+"\e[3;3~": kill-word          # Alt + Delete    → delete next word
+
+# Ctrl + Backspace / Delete → line deletion
+"\C-?": unix-line-discard     # Ctrl + Backspace → delete to line start
+"\e[3;5~": kill-line          # Ctrl + Delete    → delete to line end
