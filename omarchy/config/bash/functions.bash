@@ -6,7 +6,7 @@
 # Note: In Bash, $_ is not reliable inside functions like it is in Zsh.
 # We must reuse the argument variable ($1).
 function mcd() {
-    mkdir -p "$1" && cd "$1"
+    mkdir -p "$1" && \cd "$1"
 }
 
 # Quick find function
