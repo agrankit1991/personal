@@ -1,0 +1,28 @@
+```bash
+sudo pacman -S nautilus # File Manager
+sudo pacman -S showtime # Video Player
+sudo pacman -S loupe # Image Viewer
+sudo pacman -S sushi # Image Quick Preview
+sudo pacman -S amberol # Music player
+sudo pacman -S papers # PDF Viewer
+
+# Codecs
+sudo pacman -S ffmpeg gstreamer
+sudo pacman -S gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav # gst-libav (bridges FFmpeg codecs to GStreamer)
+sudo pacman -S ffmpegthumbs # Enables video thumbnails in Nautilus (pairs with built-in thumbnailers).
+
+# Set default apps
+xdg-mime default org.gnome.Nautilus.desktop inode/directory
+xdg-mime default org.gnome.Loupe.desktop image/png image/jpeg image/gif image/webp image/svg+xml
+xdg-mime default org.gnome.Showtime.desktop video/mp4 video/mkv video/webm video/x-matroska
+xdg-mime default org.gnome.Amberol.desktop audio/mpeg audio/flac audio/ogg
+xdg-mime default org.gnome.Papers.desktop application/pdf
+
+
+# defaults for VS code
+xdg-mime default code.desktop text/plain
+xdg-mime default code.desktop text/markdown text/x-markdown
+xdg-mime default code.desktop text/x-java-source text/x-java
+xdg-mime default code.desktop text/x-c text/x-c++ text/x-python text/x-javascript application/json application/xml
+xdg-mime default code.desktop text/x-script text/x-shellscript
+```
