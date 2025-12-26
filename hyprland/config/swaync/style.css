@@ -1,0 +1,148 @@
+:root {
+    /* Refined Tokyo Night-inspired dark palette for better depth and hover elevation:
+       - Base for main panels (deep dark).
+       - Surface for widgets (subtle elevation).
+       - Hover for interactive lifts (lighter shade for "pop" without brightness overload).
+       - Foregrounds scaled for readability.
+       - Unified muted for borders/disabled.
+       - Accent kept soft purple for harmony. */
+    --bg-base: #1a1b26;         /* Deep background for control center */
+    --bg-surface: #24283b;      /* Widget and notification backgrounds */
+    --bg-hover: #414868;        /* Lighter hover for elevation and focus */
+    --fg-base: #c0caf5;         /* Primary text */
+    --fg-hover: #cdd6f4;        /* Brighter text on interaction */
+    --border-muted: #565f89;    /* Borders, disabled text, close base */
+    --accent: #bb9af7;          /* DND and interactive highlights */
+}
+
+* {
+    all: unset;
+    font-family: "Fira Sans Semibold", "SpaceMono Nerd Font", sans-serif;
+    font-size: 14px;
+    color: var(--fg-base);
+    transition: all 0.25s ease-out;
+}
+
+/* Main Panel */
+.control-center {
+    background: var(--bg-base);
+    border-radius: 0;
+    border-left: 1px solid var(--border-muted);
+    box-shadow: -5px 0 16px rgba(0, 0, 0, 0.6);
+    padding: 15px;
+}
+
+/* Widget Sections */
+.notification,
+.widget-title,
+.widget-dnd,
+.widget-mpris {
+    background: var(--bg-surface);
+    border-radius: 32px;
+    margin: 10px 4px;
+    padding: 16px 20px;
+}
+
+/* Clear All Button - matches Waybar module hover style exactly */
+.widget-title button {
+    background: transparent;   /* Starts transparent like Waybar modules */
+    border-radius: 25px;
+    padding: 6px 16px;
+    font-size: 12px;
+    color: var(--fg-base);
+}
+
+.widget-title button label {
+    color: inherit;
+}
+
+.widget-title button:hover {
+    background: var(--bg-hover);   /* Lighter elevation on hover */
+}
+
+.widget-title button:hover label {
+    color: var(--fg-hover);        /* Slight brighten like Waybar workspace hover */
+}
+
+.widget-title button:disabled {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--border-muted);
+}
+
+.widget-title button:disabled label {
+    color: inherit;
+}
+
+/* Notification Hover - subtle lift */
+.notification {
+    border-radius: 24px;
+}
+
+.notification:hover {
+    background: var(--bg-hover);
+}
+
+/* Do Not Disturb Toggle */
+.widget-dnd > switch {
+    background: var(--bg-base);
+    border-radius: 25px;
+    padding: 4px;
+    border: 1px solid var(--border-muted);
+}
+
+.widget-dnd > switch:hover {
+    background: var(--bg-hover);
+}
+
+.widget-dnd > switch:checked {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.widget-dnd > switch slider {
+    background: var(--fg-base);
+    border-radius: 50%;
+    min-width: 24px;
+    min-height: 24px;
+    margin: 2px;
+}
+
+.widget-dnd > switch:checked slider {
+    background: var(--accent);
+}
+
+/* Media Player Buttons */
+.widget-mpris-player button {
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.widget-mpris-player button:hover {
+    background: var(--bg-hover);
+}
+
+/* Close Button */
+.close-button {
+    background: var(--border-muted);
+    color: var(--fg-base);
+    text-shadow: none;
+    padding: 4px;
+    border-radius: 50%;
+    margin-top: 5px;
+    margin-right: 5px;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+.close-button:hover {
+    background: var(--bg-surface);
+    color: var(--fg-base);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Notification Actions */
+.notification-default-action,
+.notification-action {
+    padding: 4px;
+    margin: 0;
+    border-radius: 20px;
+}

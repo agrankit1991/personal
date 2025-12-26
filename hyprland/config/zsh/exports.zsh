@@ -1,0 +1,26 @@
+# ===============================
+# Environment Variables
+# ===============================
+
+# FD (find) settings
+export FD_OPTIONS="--follow --exclude .git --exclude node_modules"
+
+# Editor preference
+export EDITOR="code"
+export VISUAL="code"
+
+# History settings
+export HISTSIZE=10000
+export SAVEHIST=10000
+export HISTFILE=~/.zsh_history
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+
+# Fedora-specific paths
+export PATH="$HOME/.local/bin:$PATH"
+
+# Less configuration
+export LESS='-R --use-color'
+
