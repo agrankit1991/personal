@@ -114,8 +114,9 @@ git config --global credential.helper /usr/share/doc/git/contrib/credential/libs
 ## 7. Configure Global .gitignore
 
 ```bash
+mkdir -p ~/.config/git
 # Create global gitignore file
-cat > ~/.gitignore_global << EOL
+cat > ~/.config/git/.gitignore << EOL
 # Linux system files
 *~
 .fuse_hidden*
@@ -151,14 +152,14 @@ target/
 EOL
 
 # Tell Git to use this global gitignore file
-git config --global core.excludesfile ~/.gitignore_global
+git config --global core.excludesfile ~/.config/git/.gitignore
 ```
 
 ## 8. Configure Git Message Template
 
 ```bash
 # Create commit message template
-cat > ~/.gitmessage << EOL
+cat > ~/.config/git/.gitmessage << EOL
 # <type>: <subject>
 
 # <body>
@@ -179,7 +180,7 @@ cat > ~/.gitmessage << EOL
 EOL
 
 # Set it as default commit template
-git config --global commit.template ~/.gitmessage
+git config --global commit.template ~/.config/git/.gitmessage
 # Use git commit to use the template to provide the message
 ```
 
