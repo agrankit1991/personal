@@ -68,7 +68,7 @@ alias sizeof='du -sh'
 
 # Fedora-specific aliases
 alias update='sudo dnf upgrade --refresh'
-alias install='sudo dnf install'
+alias install='sudo dnf install -y'
 alias remove='sudo dnf remove'
 alias search='dnf search'
 alias cleanup='sudo dnf autoremove && sudo dnf clean all'

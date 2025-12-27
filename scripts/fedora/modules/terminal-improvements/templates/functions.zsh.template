@@ -4,7 +4,7 @@
 
 # Create directory and cd into it
 function mcd() {
-    mkdir -p "$@" && cd "$_"
+    mkdir -p "$@" && \cd "$_"
 }
 
 # Quick find function
