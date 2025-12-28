@@ -43,7 +43,7 @@ sudo systemctl enable postgresql
 
 ```bash
 # Switch to postgres user
-sudo -u postgres psql
+sudo -u postgres psql # OR psql postgres
 
 # In psql, create user 'bawandar' with password 'password'
 CREATE USER bawandar WITH PASSWORD 'password' SUPERUSER;
