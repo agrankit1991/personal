@@ -81,6 +81,6 @@ alias cleanup='sudo dnf autoremove && sudo dnf clean all'
 # alias cleanup='sudo nala autoremove && sudo nala clean'
 
 # PostgreSQL aliases
-alias pgstart="pg_ctl -D ~/.local/share/postgres -l logfile start"
+alias pgstart="pg_ctl -D ~/.local/share/postgres -l ~/.local/share/postgres/logfile start"
 alias pgstop="pg_ctl -D ~/.local/share/postgres stop"
 alias pgstatus="pg_ctl -D ~/.local/share/postgres status"
