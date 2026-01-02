@@ -72,7 +72,7 @@ alias sizeof='du -sh'
 # If using 'yay' or 'paru', replace 'sudo pacman' with your helper
 alias update='sudo pacman -Syu'
 alias install='sudo pacman -S --needed'
-alias remove='sudo pacman -Rs'
+alias remove='sudo pacman -Rns'
 alias search='pacman -Ss'
 alias cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Removes unused dependencies (orphans)
 alias mirror='sudo reflector --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'

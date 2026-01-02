@@ -96,7 +96,7 @@ window#waybar {
 #custom-arch {
     margin-left: 5px;
     padding: 0 6px;
-    font-size: 20px;
+    font-size: 14px;
     transition: color .5s;
 }
 

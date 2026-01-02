@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Environment variables for Cron/Wayland compatibility
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+export WAYLAND_DISPLAY=wayland-1
+
+# 1. Define your wallpaper directory
+DIRECTORY="$HOME/Pictures/Wallpapers"
+
+# 2. Pick a random file from the folder
+# We check if the directory exists first to avoid errors
+if [ -d "$DIRECTORY" ]; then
+    WALLPAPER=$(find "$DIRECTORY" -type f | shuf -n 1)
+else
+    exit 1
+fi
+
+# 3. Send commands to the running hyprpaper daemon via hyprctl
+hyprctl hyprpaper wallpaper ",$WALLPAPER"
+
+sleep 1
+
+# Unload unused wallpapers to save VRAM
+/usr/bin/hyprctl hyprpaper unload unused

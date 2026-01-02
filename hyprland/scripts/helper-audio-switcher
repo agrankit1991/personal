@@ -2,6 +2,10 @@
 
 set -e
 
+# Declare associative arrays for device mapping
+declare -A DEVICE_MAP
+declare -A DEVICE_TYPE
+
 # Function to find the HDMI card (the one with available HDMI stereo outputs)
 find_hdmi_card() {
     pactl list cards | awk '
@@ -21,18 +25,41 @@ find_hdmi_card() {
     }'
 }
 
-# Find analog sink (the one containing "analog-stereo")
+# Function to create friendly display name
+friendly_name() {
+    local desc="$1"
+    
+    desc=$(echo "$desc" | sed -e 's/ Output$//' \
+                               -e 's/Digital Stereo (HDMI)/HDMI/' \
+                               -e 's/Digital Stereo (HDMI \([0-9]\))/HDMI Port \1/' \
+                               -e 's/^HDMI \([0-9]\)$/HDMI Port \1/' \
+                               -e 's/^HDMI$/Primary HDMI/')
+    
+    echo "$desc"
+}
+
+# Find analog sink
 ANALOG_SINK=$(pactl list sinks short | awk '/analog-stereo/ {print $2; exit}')
 
 # Find HDMI card name
 HDMI_CARD=$(find_hdmi_card)
 
 if [ -z "$HDMI_CARD" ]; then
-    notify-send " Audio Switcher" "No HDMI audio card detected!"
+    notify-send "🔊 Audio Switcher" "No HDMI audio device detected"
     exit 1
 fi
 
-# Extract available HDMI stereo profiles with their human-readable descriptions
+# Build device map with friendly names
+MENU_OPTIONS=""
+
+if [ -n "$ANALOG_SINK" ]; then
+    FRIENDLY="🎧 Headphones / Speakers"
+    DEVICE_MAP["$FRIENDLY"]="$ANALOG_SINK"
+    DEVICE_TYPE["$FRIENDLY"]="analog"
+    MENU_OPTIONS+="$FRIENDLY\n"
+fi
+
+# Extract HDMI profiles
 HDMI_PROFILES=$(pactl list cards | awk -v card="$HDMI_CARD" '
 BEGIN { found = 0 }
 /^[[:space:]]*Name: / { found = ($2 == card) }
@@ -40,11 +67,9 @@ found && /^[[:space:]]*output:hdmi-stereo(-extra[0-9]+)?: / {
     profile = $1
     sub(/:$/, "", profile)
     
-    # First, remove the details part
     temp = $0
     sub(/ \(sinks:.*\)/, "", temp)
     
-    # Then, extract desc after the second colon
     desc = temp
     sub(/^[^:]*:[^:]*: */, "", desc)
     
@@ -54,38 +79,35 @@ found && /^[[:space:]]*output:hdmi-stereo(-extra[0-9]+)?: / {
 }
 ')
 
-# Build rofi menu (single-line entries)
-MENU_OPTIONS=""
-
-if [ -n "$ANALOG_SINK" ]; then
-    MENU_OPTIONS+="󰋋 Built-in Audio (Analog) | $ANALOG_SINK\n"
-fi
-
+# Add HDMI devices to map
 while IFS='|' read -r profile desc; do
     [ -z "$profile" ] && continue
     
-    # Clean up description for display
-    display_name=$(echo "$desc" | sed -e 's/ Output$//' -e 's/Digital Stereo (HDMI)/HDMI/' -e 's/Digital Stereo (HDMI \([0-9]\))/HDMI \1/')
+    display_name=$(friendly_name "$desc")
+    FRIENDLY="🖥️  $display_name"
     
-    MENU_OPTIONS+="󰍹 $display_name | $profile\n"
+    DEVICE_MAP["$FRIENDLY"]="$profile"
+    DEVICE_TYPE["$FRIENDLY"]="hdmi"
+    MENU_OPTIONS+="$FRIENDLY\n"
 done <<< "$HDMI_PROFILES"
 
-# Show menu with rofi
+# Show menu with rofi - display only friendly names
 CHOICE=$(echo -e "$MENU_OPTIONS" | sed '/^$/d' | \
-    rofi -dmenu -i -p "🔊 Select Audio Output" \
-         -theme-str 'window {width: 500px;} listview {lines: 10;}')
+    rofi -dmenu -i -p "🔊 Audio Output" \
+         -theme-str 'window {width: 450px;} listview {lines: 8;}')
 
 [ -z "$CHOICE" ] && exit 0
 
-# Extract selected profile or sink
-SELECTED=$(echo "$CHOICE" | awk -F' \\| ' '{print $2}')
+# Get device identifier from map
+SELECTED="${DEVICE_MAP[$CHOICE]}"
+TYPE="${DEVICE_TYPE[$CHOICE]}"
 
-# Extract display name for notification (trim icon and spaces)
-DISPLAY_NAME=$(echo "$CHOICE" | awk -F' \\| ' '{print $1}' | sed 's/^[ 󰍹 󰋋]*//')
+# Extract display name for notification (remove icon)
+DISPLAY_NAME=$(echo "$CHOICE" | sed -E 's/^[🎧🖥️]+ *//')
 
-if [[ "$SELECTED" == "$ANALOG_SINK" ]]; then
-    pactl set-default-sink "$ANALOG_SINK"
-    notify-send " Audio Output" "Switched to Built-in Audio (Analog)"
+if [[ "$TYPE" == "analog" ]]; then
+    pactl set-default-sink "$SELECTED"
+    notify-send "🔊 Audio Switched" "Now using: $DISPLAY_NAME"
 else
     # Switch card profile to selected HDMI output
     pactl set-card-profile "$HDMI_CARD" "$SELECTED"
@@ -93,14 +115,14 @@ else
     # Wait briefly for the new sink to appear
     sleep 0.3
     
-    # Find the newly activated HDMI sink (first one)
+    # Find the newly activated HDMI sink
     NEW_SINK=$(pactl list sinks short | awk '/hdmi/ {print $2; exit}')
     
     if [ -n "$NEW_SINK" ]; then
         pactl set-default-sink "$NEW_SINK"
     fi
     
-    notify-send " Audio Output" "Switched to $DISPLAY_NAME"
+    notify-send "🔊 Audio Switched" "Now using: $DISPLAY_NAME"
 fi
 
 # Move all existing streams to the new default sink

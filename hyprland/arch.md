@@ -1,4 +1,4 @@
-sudo pacman -S --needed git nvim less swaync noto-fonts waybar hyprpaper hyprlauncher cliphist hypridle hyprlock hyprpolkitagent hyprland-qt-support hyprcursor xdg-user-dirs sddm unzip rofi hyprshot fastfetch
+sudo pacman -S --needed git nvim less swaync noto-fonts waybar hyprpaper hyprlauncher cliphist hypridle hyprlock hyprpolkitagent hyprland-qt-support hyprcursor xdg-user-dirs sddm unzip rofi hyprshot fastfetch swayosd
 yay -S hyprpolkitagent mkinitcpio-numlock
 
 # font

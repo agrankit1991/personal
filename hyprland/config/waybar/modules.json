@@ -3,21 +3,16 @@
         "format": "󰣇",
         "tooltip": true,
         "tooltip-format": "btw",
-        "menu": "on-click",
-        "menu-file": "~/.config/waybar/power_menu.xml",
-        "menu-actions": {
-            "lock": "~/.config/hypr/scripts/graceful-lock.sh",
-            "logout": "~/.config/hypr/scripts/graceful-logout.sh",
-            "suspend": "~/.config/hypr/scripts/graceful-suspend.sh",
-            "reboot": "~/.config/hypr/scripts/graceful-reboot.sh",
-            "shutdown": "~/.config/hypr/scripts/graceful-shutdown.sh"
-        }
+        "on-click": "$TERMINAL --title floating-window sh -c 'fastfetch; read -n 1 -s'"
     },
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
         "format": "{name}",
-        "on-click": "activate"
+        "on-click": "activate",
+        "persistent-workspaces": {
+            "*": 3
+        }
     },
     "pulseaudio": {
         "format": "{icon}  {volume}%",
@@ -39,7 +34,7 @@
                 ""
             ]
         },
-        "on-click": "~/.config/waybar/scripts/audio-switcher.sh"
+        "on-click": "~/scripts/helper-audio-switcher"
     },
     "cpu": {
         "format": "  {usage}%",
@@ -61,19 +56,6 @@
             "format": {
                 "today": "<span color='#ff5555'><b><u>{}</u></b></span>"
             }
-        }
-    },
-    "custom/power": {
-        "format": "⏻ ",
-        "tooltip": false,
-        "menu": "on-click",
-        "menu-file": "$HOME/.config/waybar/power_menu.xml",
-        "menu-actions": {
-            "shutdown": "shutdown",
-            "reboot": "reboot",
-            "suspend": "systemctl suspend",
-            "lock": "hyprlock",
-            "logout": "hyprctl dispatch exit"
         }
     },
     "custom/notification": {

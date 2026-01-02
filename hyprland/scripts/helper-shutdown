@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./close-all-apps
+systemctl poweroff --no-wall

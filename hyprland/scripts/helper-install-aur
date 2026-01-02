@@ -1,0 +1,28 @@
+#!/bin/bash
+
+fzf_args=(
+  --disabled
+  --ansi
+  --bind "change:reload:paru -Ssaq {q} 2>/dev/null || true"  # -a flag for AUR only
+  --bind "start:reload:echo ''"  # Start with empty list instead of directory contents
+  --preview 'paru -Sia {1}'
+  --preview-label='alt-p: toggle, alt-b/B: PKGBUILD, alt-j/k: scroll, tab: select'
+  --preview-label-pos='bottom'
+  --preview-window 'down:65%:wrap'
+  --bind 'alt-p:toggle-preview'
+  --bind 'alt-d:preview-half-page-down,alt-u:preview-half-page-up'
+  --bind 'alt-k:preview-up,alt-j:preview-down'
+  --bind 'alt-b:change-preview:paru -Gp {1} | tail -n +5'
+  --bind 'alt-B:change-preview:paru -Sia {1}'
+  --color 'pointer:green,marker:green'
+  --prompt 'AUR Package Search> '
+  --header 'Type to search AUR packages'
+  --multi
+)
+
+pkg_names=$(fzf "${fzf_args[@]}")
+
+if [[ -n "$pkg_names" ]]; then
+  echo "$pkg_names" | tr '\n' ' ' | xargs paru -S --noconfirm
+  ./show-done
+fi

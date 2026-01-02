@@ -1,148 +1,117 @@
+/* Nord Palette & Variables */
 :root {
-    /* Refined Tokyo Night-inspired dark palette for better depth and hover elevation:
-       - Base for main panels (deep dark).
-       - Surface for widgets (subtle elevation).
-       - Hover for interactive lifts (lighter shade for "pop" without brightness overload).
-       - Foregrounds scaled for readability.
-       - Unified muted for borders/disabled.
-       - Accent kept soft purple for harmony. */
-    --bg-base: #1a1b26;         /* Deep background for control center */
-    --bg-surface: #24283b;      /* Widget and notification backgrounds */
-    --bg-hover: #414868;        /* Lighter hover for elevation and focus */
-    --fg-base: #c0caf5;         /* Primary text */
-    --fg-hover: #cdd6f4;        /* Brighter text on interaction */
-    --border-muted: #565f89;    /* Borders, disabled text, close base */
-    --accent: #bb9af7;          /* DND and interactive highlights */
+    --bg-base: #2E3440;
+    --bg-surface: #3B4252;
+    --bg-hover: #4C566A;
+    --fg-base: #D8DEE9;
+    --accent: #88C0D0;
+    --critical: #BF616A;
+    --border: #434C5E;
 }
 
+/* Global Reset */
 * {
     all: unset;
-    font-family: "Fira Sans Semibold", "SpaceMono Nerd Font", sans-serif;
-    font-size: 14px;
+    font-family: "Inter", "Roboto", sans-serif;
+    font-size: 13px;
     color: var(--fg-base);
-    transition: all 0.25s ease-out;
+    transition: background 0.2s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Main Panel */
+/* Main Panel Container */
 .control-center {
     background: var(--bg-base);
-    border-radius: 0;
-    border-left: 1px solid var(--border-muted);
-    box-shadow: -5px 0 16px rgba(0, 0, 0, 0.6);
-    padding: 15px;
+    padding: 12px;
+    border-right: 1px solid var(--border);
+    /* Animation preserved from original */
+    animation: slideInLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Widget Sections */
-.notification,
-.widget-title,
-.widget-dnd,
-.widget-mpris {
+/* Common Widget Style */
+.notification, .widget-title, .widget-dnd, .widget-mpris {
     background: var(--bg-surface);
-    border-radius: 32px;
-    margin: 10px 4px;
-    padding: 16px 20px;
+    border-radius: 22px;
+    margin: 8px 4px;
+    padding: 12px 16px;
 }
 
-/* Clear All Button - matches Waybar module hover style exactly */
-.widget-title button {
-    background: transparent;   /* Starts transparent like Waybar modules */
-    border-radius: 25px;
-    padding: 6px 16px;
-    font-size: 12px;
-    color: var(--fg-base);
+/* --- DND Widget (Small & Right Aligned) --- */
+.widget-dnd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.widget-title button label {
-    color: inherit;
+/* The Switch Container */
+.widget-dnd > switch {
+    background: var(--bg-base);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2px;
 }
 
-.widget-title button:hover {
-    background: var(--bg-hover);   /* Lighter elevation on hover */
+/* The Small Slider Knob */
+.widget-dnd > switch slider {
+    background: var(--fg-base);
+    border-radius: 50%;
+    min-width: 14px;
+    min-height: 14px;
+    margin: 2px;
 }
 
-.widget-title button:hover label {
-    color: var(--fg-hover);        /* Slight brighten like Waybar workspace hover */
+.widget-dnd > switch:checked {
+    background: var(--accent);
 }
 
-.widget-title button:disabled {
-    background: rgba(0, 0, 0, 0.3);
-    color: var(--border-muted);
+.widget-dnd > switch:checked slider {
+    background: var(--bg-base);
 }
 
-.widget-title button:disabled label {
-    color: inherit;
-}
-
-/* Notification Hover - subtle lift */
-.notification {
-    border-radius: 24px;
-}
-
+/* Notification Styling */
 .notification:hover {
     background: var(--bg-hover);
 }
 
-/* Do Not Disturb Toggle */
-.widget-dnd > switch {
-    background: var(--bg-base);
-    border-radius: 25px;
-    padding: 4px;
-    border: 1px solid var(--border-muted);
-}
-
-.widget-dnd > switch:hover {
-    background: var(--bg-hover);
-}
-
-.widget-dnd > switch:checked {
-    background: rgba(0, 0, 0, 0.4);
-}
-
-.widget-dnd > switch slider {
-    background: var(--fg-base);
-    border-radius: 50%;
-    min-width: 24px;
-    min-height: 24px;
-    margin: 2px;
-}
-
-.widget-dnd > switch:checked slider {
-    background: var(--accent);
-}
-
-/* Media Player Buttons */
+/* Buttons (Title & Media) */
+.widget-title button, 
 .widget-mpris-player button {
-    border-radius: 50%;
-    padding: 10px;
+    background: var(--bg-base);
+    padding: 6px 12px;
+    border-radius: 8px;
 }
 
+.widget-title button:hover, 
 .widget-mpris-player button:hover {
-    background: var(--bg-hover);
+    background: var(--accent);
+    color: var(--bg-base);
 }
 
-/* Close Button */
+/* Close/Action Buttons */
 .close-button {
-    background: var(--border-muted);
-    color: var(--fg-base);
-    text-shadow: none;
-    padding: 4px;
+    background: var(--border);
     border-radius: 50%;
-    margin-top: 5px;
-    margin-right: 5px;
-    min-width: 24px;
-    min-height: 24px;
+    min-width: 20px;
+    min-height: 20px;
 }
 
 .close-button:hover {
-    background: var(--bg-surface);
-    color: var(--fg-base);
-    transition: all 0.2s ease-in-out;
+    background: var(--critical);
 }
 
-/* Notification Actions */
-.notification-default-action,
 .notification-action {
-    padding: 4px;
-    margin: 0;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px;
+    margin-top: 8px;
+    border-radius: 6px;
+}
+
+/* Entrance Animation */
+@keyframes slideInLeft {
+    0% { transform: translateX(-100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Clear All Button - Rounded Pill Style */
+.widget-title button {
     border-radius: 20px;
 }

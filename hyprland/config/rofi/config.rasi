@@ -1,0 +1,8 @@
+configuration {
+	display-drun: "Application: ";
+	show-icons: true;
+	icon-theme: "Papirus";
+	click-to-exit: true;
+}
+
+@theme "/home/ankit/.local/share/rofi/themes/rounded-nord-dark.rasi"
