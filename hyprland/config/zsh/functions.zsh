@@ -90,9 +90,9 @@ function note() {
 
 function update-system() {
     echo "--- Updating Arch Linux (Official & AUR) ---"
-    # Update official and AUR packages via yay
-    yay -Syu
-    
+    # Update official and AUR packages via paru
+    paru -Syu
+
     # Update Flatpaks if you use them
     if command -v flatpak &> /dev/null; then
         echo "--- Updating Flatpaks ---"
@@ -103,7 +103,7 @@ function update-system() {
 
 function clean-system() {
     echo "--- Cleaning Arch Linux ---"
-    
+
     # Remove orphan packages
     local orphans=$(pacman -Qtdq)
     if [[ -n "$orphans" ]]; then
@@ -127,6 +127,6 @@ function clean-system() {
     if command -v flatpak &> /dev/null; then
         flatpak uninstall --unused -y
     fi
-    
+
     echo "System cleaned successfully!"
 }

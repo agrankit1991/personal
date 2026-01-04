@@ -74,7 +74,7 @@ alias update='sudo pacman -Syu'
 alias install='sudo pacman -S --needed'
 alias remove='sudo pacman -Rns'
 alias search='pacman -Ss'
-alias cleanup='sudo pacman -Rns $(pacman -Qtdq)' # Removes unused dependencies (orphans)
+alias cleanup='sudo pacman -Rns $(pacman -Qtdq) || echo "No orphans to remove."' # Removes unused dependencies (orphans)
 alias mirror='sudo reflector --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
 
 # ===============================
