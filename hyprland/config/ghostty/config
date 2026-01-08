@@ -1,0 +1,24 @@
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+#
+# Ghostty can reload the configuration while running by using the menu
+# options or the bound key (default: Command + Shift + comma on macOS and
+# Control + Shift + comma on other platforms). Not all config options can be
+# reloaded while running; some only apply to new windows and others may require
+# a full restart to take effect.
+
+# Font
+font-family = JetBrainsMono Nerd Font
+font-size = 13
+
+# Ligatures (optional)
+#font-feature = calt
+#font-feature = liga
+
+# Appearance
+background-opacity = 0.9
+window-decoration = false
+
+# Window Padding
+window-padding-x = 10
+window-padding-y = 0
