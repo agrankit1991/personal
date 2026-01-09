@@ -40,6 +40,7 @@ xdg-mime default code.desktop text/x-c text/x-c++ text/x-python text/x-javascrip
 xdg-mime default code.desktop text/x-script text/x-shellscript
 ```
 
+
 # Install Flatpak and Bazaar 
 sudo pacman -S flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
