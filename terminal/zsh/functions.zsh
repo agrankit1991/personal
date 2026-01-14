@@ -1,0 +1,104 @@
+# ===============================
+# Custom Functions
+# ===============================
+
+# Create directory and cd into it
+function mcd() {
+    mkdir -p "$@" && \cd "$_"
+}
+
+# Quick find function
+function f() {
+    find . -name "*$1*"
+}
+
+# Extract various archive formats
+function extract() {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xjf $1     ;;
+            *.tar.gz)    tar xzf $1     ;;
+            *.bz2)       bunzip2 $1     ;;
+            *.rar)       unrar e $1     ;;
+            *.gz)        gunzip $1      ;;
+            *.tar)       tar xf $1      ;;
+            *.tbz2)      tar xjf $1     ;;
+            *.tgz)       tar xzf $1     ;;
+            *.zip)       unzip $1       ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1        ;;
+            *)           echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Quick backup function
+function backup() {
+    cp "$1" "$1.backup.$(date +%Y%m%d_%H%M%S)"
+    echo "Backup created: $1.backup.$(date +%Y%m%d_%H%M%S)"
+}
+
+# Quick project navigation
+function proj() {
+    if [[ -z "$1" ]]; then
+        cd ~/Developer && ls
+    else
+        cd ~/Developer/"$1" && ls
+    fi
+}
+
+# Git clone and cd
+function gclone() {
+    git clone "$1" && cd "$(basename "$1" .git)"
+}
+
+# Create and switch to a new git branch
+function gcb() {
+    git checkout -b "$1"
+}
+
+# Show directory tree with git status
+function tree-git() {
+    tree -I '.git|node_modules|__pycache__|*.pyc'
+}
+
+# Weather function (requires curl)
+function weather() {
+    local city="${1:-}"
+    curl -s "wttr.in/${city}?format=3"
+}
+
+# Quick note-taking
+function note() {
+    local note_file="$HOME/notes.txt"
+    if [[ $# -eq 0 ]]; then
+        cat "$note_file" 2>/dev/null || echo "No notes found"
+    else
+        echo "$(date): $*" >> "$note_file"
+        echo "Note added: $*"
+    fi
+}
+
+# Fedora-specific functions
+function update-system() {
+    echo "Updating Fedora system..."
+    sudo nala update -y && sudo nala upgrade -y
+    # Update Flatpaks if you use them
+    if command -v flatpak &> /dev/null; then
+        echo "--- Updating Flatpaks ---"
+        flatpak update -y
+    fi
+    echo "System updated successfully!"
+}
+
+function clean-system() {
+    echo "Cleaning Fedora system..."
+    sudo nala autoremove && sudo nala clean
+    # Clean Flatpaks
+    if command -v flatpak &> /dev/null; then
+        flatpak uninstall --unused -y
+    fi
+    echo "System cleaned successfully!"
+}
