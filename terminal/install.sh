@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Terminal Setup Script
+# Terminal Setup Script for Arch Linux
 # Sets up a modern terminal environment with Zsh, Starship, and essential CLI tools
 
 set -e  # Exit on error
@@ -38,19 +38,18 @@ fi
 echo "✓ All required files found"
 echo ""
 
-# Install Nala first
-echo "Installing Nala..."
-sudo apt update
-sudo apt install -y nala
+# Update package database
+echo "Updating package database..."
+sudo pacman -Syu --noconfirm
 
 # Install packages
 echo ""
 echo "Installing packages..."
-sudo nala install -y \
+sudo pacman -S --needed --noconfirm \
     neovim \
     zsh \
     ripgrep \
-    fd-find \
+    fd \
     bat \
     eza \
     zoxide \
@@ -62,8 +61,13 @@ sudo nala install -y \
     btop \
     man-db \
     cmatrix \
-    cargo \
-    unzip
+    rust \
+    unzip \
+    wget
+
+echo ""
+echo "Installing JetBrainsMono Nerd Font..."
+sudo pacman -S --needed --noconfirm ttf-jetbrains-mono-nerd
 
 echo ""
 echo "Installing mise..."
@@ -72,25 +76,6 @@ curl https://mise.run | sh
 echo ""
 echo "Installing Starship prompt..."
 curl -sS https://starship.rs/install.sh | sh
-
-# Install JetBrainsMono Nerd Font
-echo ""
-echo "Installing JetBrainsMono Nerd Font..."
-cd /tmp
-wget -q --show-progress https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
-
-mkdir -p ~/.local/share/fonts
-unzip -q JetBrainsMono.zip -d ~/.local/share/fonts/JetBrainsMono
-
-# Remove non-TTF files
-find ~/.local/share/fonts/JetBrainsMono -type f ! -name "*.ttf" -delete
-
-# Update font cache
-echo "Updating font cache..."
-fc-cache -fv > /dev/null 2>&1
-
-# Clean up
-rm JetBrainsMono.zip
 
 # Copy configuration files
 echo ""
