@@ -73,3 +73,7 @@ ssh-add ~/.ssh/id_ed25519
 --password-store=gnome
 ~/.config/chromium-flags.conf
 ~/.config/brave-flags.conf
+
+
+## steam cs2 flag
+SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0 %command%
