@@ -1,5 +1,5 @@
 # Install PostgreSQL
-sudo pacman -S postgresql
+install postgresql
 
 # Initialize the database cluster
 sudo -u postgres initdb -D /var/lib/postgres/data

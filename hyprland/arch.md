@@ -39,7 +39,7 @@ https://github.com/Keyitdev/sddm-astronaut-theme
 
 
 # Gnome Keyring
-sudo pacman -S gnome-keyring libsecret seahorse
+install gnome-keyring libsecret seahorse
 # The gnome-keyring-daemon starts automatically via systemd user services on login. If not, enable it manually:
 systemctl --user enable --now gnome-keyring-daemon.service gnome-keyring-daemon.socket
 # Edit /etc/pam.d/login (for console login)

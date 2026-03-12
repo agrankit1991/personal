@@ -70,8 +70,8 @@ alias sizeof='du -sh'
 # Arch-Specific Aliases (Pacman)
 # ===============================
 # If using 'yay' or 'paru', replace 'sudo pacman' with your helper
-alias update='sudo pacman -Syu'
 alias install='sudo pacman -S --needed'
+alias installl='paru -S --needed'
 alias remove='sudo pacman -Rns'
 alias search='pacman -Ss'
 alias cleanup='sudo pacman -Rns $(pacman -Qtdq) || echo "No orphans to remove."' # Removes unused dependencies (orphans)

@@ -1,5 +1,5 @@
 # Firewall
-sudo pacman -S ufw
+install ufw
 sudo systemctl enable --now ufw
 
 ## Set Rules

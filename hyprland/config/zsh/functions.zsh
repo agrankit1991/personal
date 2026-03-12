@@ -88,10 +88,10 @@ function note() {
 # Arch Linux System Functions
 # ===============================
 
-function update-system() {
+function update() {
     echo "--- Updating Arch Linux (Official & AUR) ---"
     # Update official and AUR packages via paru
-    paru -Syu
+    paru -Syu --noconfirm
 
     # Update Flatpaks if you use them
     if command -v flatpak &> /dev/null; then
