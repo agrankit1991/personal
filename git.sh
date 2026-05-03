@@ -66,6 +66,9 @@ venv/
 *.jar
 *.war
 target/
+build/
+.gradle/
+
 EOL
 
 # Create commit message template
