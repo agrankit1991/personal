@@ -71,7 +71,8 @@ sudo pacman -S --needed --noconfirm \
     cmatrix \
     rust \
     unzip \
-    wget
+    wget \
+    gnome-disk-utility
 
 echo ""
 echo "Installing JetBrainsMono Nerd Font..."

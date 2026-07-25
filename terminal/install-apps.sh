@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # GUI & Dev Apps Install Script for Arch Linux
-# Installs VS Code, OpenCode (AI coding agent), and Brave Browser
+# Installs VS Code:, OpenCode (AI coding agent), Brave Browser,
+# and Flatpak apps (Obsidian, Bazaar, OnlyOffice, Thunderbird, DBeaver)
 
 set -e
 
@@ -17,6 +18,18 @@ PACKAGES=(
     "opencode:opencode"
     "code:visual-studio-code-bin"
     "brave:brave-bin"
+)
+
+# ===============================
+# Flatpak App List
+# ===============================
+# Format: "app-id"
+FLATPAK_APPS=(
+    "md.obsidian.Obsidian"
+    "io.bazaar.Bazaar"
+    "org.onlyoffice.desktopeditors"
+    "org.mozilla.Thunderbird"
+    "io.dbeaver.DBeaverCommunity"
 )
 
 # ===============================
@@ -73,6 +86,56 @@ for pkg_info in "${PACKAGES[@]}"; do
     echo ""
 done
 
+# ===============================
+# Flatpak Setup & Installation
+# ===============================
+
+echo ""
+echo "========================================"
+echo "Setting up Flatpak & Flathub"
+echo "========================================"
+echo ""
+
+# Install flatpak if not present
+echo "Checking for flatpak..."
+if ! command -v flatpak &> /dev/null; then
+    echo "Installing flatpak..."
+    installl flatpak
+    echo "✓ flatpak installed"
+else
+    echo "✓ flatpak already installed"
+fi
+echo ""
+
+# Add flathub remote if not present
+echo "Checking for flathub remote..."
+if ! flatpak remotes | grep -q "flathub"; then
+    echo "Adding flathub remote..."
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    echo "✓ flathub remote added"
+else
+    echo "✓ flathub remote already configured"
+fi
+echo ""
+
+# Install flatpak apps
+echo "========================================"
+echo "Installing Flatpak Applications"
+echo "========================================"
+echo ""
+
+for app_id in "${FLATPAK_APPS[@]}"; do
+    app_name="${app_id##*.}"
+    echo "Installing ${app_name} (${app_id})..."
+    if flatpak list --app | grep -q "${app_id}"; then
+        echo "✓ ${app_name} is already installed"
+    else
+        flatpak install -y flathub "${app_id}"
+        echo "✓ ${app_name} installed"
+    fi
+    echo ""
+done
+
 echo ""
 echo "========================================"
 echo "Installation Complete!"
@@ -84,11 +147,21 @@ for pkg_info in "${PACKAGES[@]}"; do
     pkg="${pkg_info##*:}"
     echo "  ✓ ${pkg}"
 done
+for app_id in "${FLATPAK_APPS[@]}"; do
+    app_name="${app_id##*.}"
+    echo "  ✓ ${app_name} (flatpak)"
+done
 echo ""
 echo "Next steps:"
 echo "  1. Run 'opencode --version' to verify OpenCode"
-echo "  2. Run 'code' to launch VS Code"
+echo "  2. Run 'code' to launch VS Code:"
 echo "  3. Run 'brave' to launch Brave Browser"
+echo "  4. Launch flatpak apps from your app menu or with:"
+echo "      flatpak run md.obsidian.Obsidian"
+echo "      flatpak run io.bazaar.Bazaar"
+echo "      flatpak run org.onlyoffice.desktopeditors"
+echo "      flatpak run org.mozilla.Thunderbird"
+echo "      flatpak run io.dbeaver.DBeaverCommunity"
 echo ""
 echo "Optional OpenCode setup:"
 echo "  - Run 'opencode init' to configure your API keys"
