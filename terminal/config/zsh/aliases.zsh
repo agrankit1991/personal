@@ -5,7 +5,7 @@ alias please='sudo'
 alias cd='z'
 alias wp='cd /home/$USER/code && ls'
 
-# Note: On Fedora, bat is called 'bat' (not 'batcat' like on Ubuntu)
+# On Arch, the binary is 'bat'
 alias cat='bat'
 alias grep='rg'
 alias du='ncdu'
@@ -66,21 +66,20 @@ alias md='mkdir -p'
 alias rd='rmdir'
 alias sizeof='du -sh'
 
-# Fedora-specific aliases
-# alias update='sudo dnf upgrade --refresh'
-# alias install='sudo dnf install -y'
-# alias remove='sudo dnf remove'
-# alias search='dnf search'
-# alias cleanup='sudo dnf autoremove && sudo dnf clean all'
+# ===============================
+# Arch-Specific Aliases (Pacman)
+# ===============================
+# If using 'yay' or 'paru', replace 'sudo pacman' with your helper
+alias install='sudo pacman -S --needed'
+alias installl='paru -S --needed'
+alias remove='sudo pacman -Rns'
+alias search='pacman -Ss'
+alias cleanup='sudo pacman -Rns $(pacman -Qtdq) || echo "No orphans to remove."' # Removes unused dependencies (orphans)
+alias mirror='sudo reflector --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
 
-# Ubuntu-specific aliases
-alias update='sudo nala update && sudo nala upgrade'
-alias install='sudo nala install'
-alias remove='sudo nala remove'
-alias search='nala search'
-alias cleanup='sudo nala autoremove && sudo nala clean'
-
-# PostgreSQL aliases
-alias pgstart="pg_ctl -D ~/.local/share/postgres -l ~/.local/share/postgres/logfile start"
+# ===============================
+# PostgreSQL Aliases
+# ===============================
+alias pgstart="pg_ctl -D ~/.local/share/postgres -l logfile start"
 alias pgstop="pg_ctl -D ~/.local/share/postgres stop"
 alias pgstatus="pg_ctl -D ~/.local/share/postgres status"

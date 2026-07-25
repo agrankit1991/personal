@@ -21,8 +21,6 @@ setopt HIST_IGNORE_SPACE
 # Fedora-specific paths
 export PATH="$HOME/.local/bin:$PATH"
 
-# Rust/Cargo path
-export PATH="/home/ankit/.cargo/bin:$PATH"
-
 # Less configuration
 export LESS='-R --use-color'
+

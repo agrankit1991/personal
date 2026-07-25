@@ -1,7 +1,7 @@
 # Path to Oh My Zsh installation
 export ZSH="$HOME/.oh-my-zsh"
-export PATH="$HOME/.cargo/bin:$PATH"
 
+# Set theme to Powerlevel10k
 ZSH_THEME=""
 
 # Set plugins
@@ -16,7 +16,6 @@ source $ZSH/oh-my-zsh.sh
 [[ -f ~/.config/zsh/functions.zsh ]] && source ~/.config/zsh/functions.zsh
 [[ -f ~/.config/zsh/dev-servers.zsh ]] && source ~/.config/zsh/dev-servers.zsh
 
-
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
-eval "$($HOME/.local/bin/mise activate zsh)"
+eval "$(/home/ankit/.local/bin/mise activate zsh)"

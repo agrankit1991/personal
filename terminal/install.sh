@@ -25,14 +25,22 @@ if [ ! -f "$SCRIPT_DIR/.zshrc" ]; then
     exit 1
 fi
 
-if [ ! -f "$SCRIPT_DIR/starship.toml" ]; then
-    echo "Error: starship.toml not found in current directory"
+if [ ! -f "$SCRIPT_DIR/config/starship.toml" ]; then
+    echo "Error: starship.toml not found in config/ directory"
     exit 1
 fi
 
-if [ ! -d "$SCRIPT_DIR/zsh" ]; then
-    echo "Error: zsh directory not found in current directory"
+if [ ! -d "$SCRIPT_DIR/config/zsh" ]; then
+    echo "Error: zsh directory not found in config/ directory"
     exit 1
+fi
+
+if [ ! -d "$SCRIPT_DIR/config/fastfetch" ]; then
+    echo "Warning: fastfetch directory not found in config/ directory"
+fi
+
+if [ ! -d "$SCRIPT_DIR/config/ghostty" ]; then
+    echo "Warning: ghostty directory not found in config/ directory"
 fi
 
 echo "✓ All required files found"
@@ -77,6 +85,22 @@ echo ""
 echo "Installing Starship prompt..."
 curl -sS https://starship.rs/install.sh | sh
 
+echo ""
+echo "Installing paru (AUR helper)..."
+if ! command -v paru &> /dev/null; then
+    echo "Installing base-devel (required for AUR packages)..."
+    sudo pacman -S --needed --noconfirm base-devel
+
+    PARU_BUILD_DIR="$(mktemp -d)"
+    echo "Building paru in $PARU_BUILD_DIR..."
+    git clone https://aur.archlinux.org/paru-bin.git "$PARU_BUILD_DIR/paru-bin"
+    (cd "$PARU_BUILD_DIR/paru-bin" && makepkg -si --noconfirm)
+    rm -rf "$PARU_BUILD_DIR"
+    echo "✓ paru installed"
+else
+    echo "✓ paru already installed"
+fi
+
 # Copy configuration files
 echo ""
 echo "Copying configuration files..."
@@ -101,7 +125,7 @@ if [ -f ~/.config/starship.toml ]; then
 fi
 
 # Copy starship.toml
-cp "$SCRIPT_DIR/starship.toml" ~/.config/
+cp "$SCRIPT_DIR/config/starship.toml" ~/.config/
 echo "✓ Copied starship.toml to ~/.config/"
 
 # Backup existing zsh config directory if it exists
@@ -111,8 +135,28 @@ if [ -d ~/.config/zsh ]; then
 fi
 
 # Copy zsh directory
-cp -r "$SCRIPT_DIR/zsh" ~/.config/
+cp -r "$SCRIPT_DIR/config/zsh" ~/.config/
 echo "✓ Copied zsh directory to ~/.config/"
+
+# Copy fastfetch directory if it exists
+if [ -d "$SCRIPT_DIR/config/fastfetch" ]; then
+    if [ -d ~/.config/fastfetch ]; then
+        echo "Backing up existing ~/.config/fastfetch to ~/.config/fastfetch.backup"
+        mv ~/.config/fastfetch ~/.config/fastfetch.backup
+    fi
+    cp -r "$SCRIPT_DIR/config/fastfetch" ~/.config/
+    echo "✓ Copied fastfetch directory to ~/.config/"
+fi
+
+# Copy ghostty directory if it exists
+if [ -d "$SCRIPT_DIR/config/ghostty" ]; then
+    if [ -d ~/.config/ghostty ]; then
+        echo "Backing up existing ~/.config/ghostty to ~/.config/ghostty.backup"
+        mv ~/.config/ghostty ~/.config/ghostty.backup
+    fi
+    cp -r "$SCRIPT_DIR/config/ghostty" ~/.config/
+    echo "✓ Copied ghostty directory to ~/.config/"
+fi
 
 
 # Change default shell to zsh
@@ -201,6 +245,8 @@ echo "Configuration files copied:"
 echo "  ✓ ~/.zshrc"
 echo "  ✓ ~/.config/starship.toml"
 echo "  ✓ ~/.config/zsh/"
+echo "  ✓ ~/.config/fastfetch/"
+echo "  ✓ ~/.config/ghostty/"
 echo "  ✓ ~/.config/nvim/ (LazyVim)"
 echo ""
 echo "Next steps:"
