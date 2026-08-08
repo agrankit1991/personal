@@ -20,7 +20,7 @@ install_mise_tools() {
     command -v mise >/dev/null 2>&1 && mise_bin="mise"
 
     local repo_root
-    repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
     read_package_list "$repo_root/shared/packages/mise-tools.txt"
 
     local tool_spec tool version
