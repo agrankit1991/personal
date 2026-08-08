@@ -1,0 +1,14 @@
+plasma-desktop
+plasma-login-manager
+dolphin
+konsole
+kate
+plasma-nm
+plasma-pa
+bluedevil
+powerdevil
+ark
+spectacle
+kscreen
+kwalletmanager
+plasma-systemmonitor

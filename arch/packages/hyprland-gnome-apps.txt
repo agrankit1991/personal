@@ -1,0 +1,10 @@
+nautilus
+showtime
+loupe
+sushi
+amberol
+papers
+gnome-calendar
+gnome-calculator
+gnome-clocks
+gnome-font-viewer

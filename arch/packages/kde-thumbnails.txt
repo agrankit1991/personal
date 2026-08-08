@@ -1,0 +1,3 @@
+ffmpegthumbs
+kdegraphics-thumbnailers
+kimageformats

@@ -1,0 +1,26 @@
+#!/bin/bash
+# "GUI apps" component, shared by every Arch desktop script: general-purpose
+# dev/desktop apps that aren't tied to any particular DE.
+#
+# Depends on: shared/lib/{log,packages}.sh, arch/lib/pacman.sh.
+
+install_apps_component() {
+    log_section "GUI Apps"
+
+    local repo_root
+    repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
+    read_package_list "$repo_root/arch/packages/apps-aur.txt"
+    install_aur "${PACKAGE_LIST[@]}"
+
+    read_package_list "$repo_root/arch/packages/apps-flatpak.txt"
+    local flatpak_apps=("${PACKAGE_LIST[@]}")
+    ensure_flatpak
+    local app_id
+    for app_id in "${flatpak_apps[@]}"; do
+        install_flatpak_app "$app_id"
+    done
+
+    log_success "GUI apps ready"
+    log_info "Optional OpenCode setup: run 'opencode init' to configure API keys"
+}

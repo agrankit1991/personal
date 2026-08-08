@@ -1,0 +1,4 @@
+inter-font
+ttf-jetbrains-mono-nerd
+noto-fonts-extra
+texlive-fontsextra

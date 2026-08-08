@@ -1,0 +1,5 @@
+md.obsidian.Obsidian
+io.github.kolunmi.Bazaar
+org.onlyoffice.desktopeditors
+org.mozilla.Thunderbird
+io.dbeaver.DBeaverCommunity

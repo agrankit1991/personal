@@ -1,0 +1,6 @@
+# Arch-only additions to shared/packages/terminal.txt (unzip/man-db/etc.
+# ship standard on macOS, so they're not in the shared list).
+man-db
+cmatrix
+rust
+unzip

@@ -1,0 +1,20 @@
+# Modern CLI tools — identical package name on pacman and Homebrew.
+# OS-specific extras live in arch/packages/terminal-extra.txt and
+# macos has none of its own (everything it needs is common).
+neovim
+zsh
+ripgrep
+fd
+bat
+eza
+zoxide
+duf
+ncdu
+fzf
+tldr
+tree
+btop
+jq
+wget
+lazygit
+fastfetch

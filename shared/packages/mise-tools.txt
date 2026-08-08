@@ -1,0 +1,5 @@
+# mise-managed language toolchains (tool@version), shared by every OS's
+# dev-tools component.
+java@temurin-21
+node@lts
+gradle@latest

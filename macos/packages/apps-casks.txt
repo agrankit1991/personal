@@ -1,0 +1,6 @@
+visual-studio-code
+brave-browser
+obsidian
+onlyoffice
+thunderbird
+dbeaver-community

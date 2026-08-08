@@ -1,0 +1,4 @@
+opencode
+visual-studio-code-bin
+intellij-idea-ultimate-edition
+brave-bin
