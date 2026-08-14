@@ -30,3 +30,11 @@ working-directory = ~/code
 # Shift+Insert, but Ghostty's default for that is paste_from_selection —
 # the mouse-highlight primary selection, not what SUPER+C actually copied.
 keybind = shift+insert=paste_from_clipboard
+
+# SUPER+C arrives as Ctrl+Insert. `performable:` means Ghostty only swallows
+# it when there is actually a selection to copy; otherwise it behaves as if
+# unbound and the key reaches the running program. That is what lets
+# terminal Neovim bind <C-Insert> to yank the visual selection — see
+# shared/config/nvim/lua/config/keymaps.lua. Mouse-selection copying in the
+# terminal is unaffected.
+keybind = performable:ctrl+insert=copy_to_clipboard:mixed
