@@ -91,6 +91,19 @@ EOF
     systemctl --user restart cliphist.service
     log_success "Clipboard history running (SUPER+SHIFT+V)"
 
+    # External monitor brightness. COSMIC's settings daemon speaks DDC/CI
+    # itself as of 1.0.14, so the brightness keys need no script — they just
+    # need /dev/i2c-* to exist and be reachable from the session. ddcutil is
+    # installed for the modules-load.d and udev snippets it ships, which
+    # provide exactly that; `ddcutil detect` is also the way to diagnose a
+    # monitor that has DDC/CI switched off in its own OSD menu.
+    #
+    # modprobe here so it works this session too — the packaged
+    # modules-load.d file only takes effect at the next boot.
+    log_info "Enabling external monitor brightness (DDC/CI)..."
+    sudo modprobe i2c-dev
+    log_success "DDC/CI enabled for external monitors"
+
     # Replaces the whole custom-shortcuts map, so add new bindings to
     # config/shortcuts/custom rather than through COSMIC Settings — anything
     # set in the UI is overwritten on the next run.

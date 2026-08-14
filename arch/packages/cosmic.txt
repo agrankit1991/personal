@@ -3,3 +3,4 @@ keyd
 cliphist
 wl-clipboard
 fuzzel
+ddcutil
