@@ -28,9 +28,9 @@ install_apps_component() {
     # cross-platform, but the destinations are not (macOS puts both under
     # ~/Library/Application Support/), so they're installed here per OS
     # rather than by install-dotfiles.sh.
-    install_file "$repo_root/shared/config/zed/settings.json" \
+    install_file "$repo_root/shared/config/zed/settings.jsonc" \
         "$HOME/.config/zed/settings.json"
-    install_file "$repo_root/shared/config/vscode/settings.json" \
+    install_file "$repo_root/shared/config/vscode/settings.jsonc" \
         "$HOME/.config/Code/User/settings.json"
 
     log_success "GUI apps ready"

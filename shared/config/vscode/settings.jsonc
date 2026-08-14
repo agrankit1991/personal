@@ -2,6 +2,10 @@
 // same everywhere but the path is not — Linux uses ~/.config/Code/User/ and
 // macOS uses ~/Library/Application Support/Code/User/ — so the per-OS apps
 // component installs it.
+//
+// Tracked as .jsonc and installed as .json: VS Code reads User/settings.json
+// as JSONC so the comments below survive, but a bare settings.json sitting in
+// a repo gets linted as strict JSON, which flags every comment as an error.
 {
   // ---------------------------------------------------------------- saving
   // Saving writes exactly what you typed. Nothing reformats, retrims or

@@ -15,7 +15,7 @@ install_apps_component() {
     # See the note in arch/components/apps.sh: shared content, per-OS paths.
     # Zed isn't in apps-casks.txt, so only the VS Code config goes out here —
     # add the Zed line alongside it if Zed ever joins the cask list.
-    install_file "$repo_root/shared/config/vscode/settings.json" \
+    install_file "$repo_root/shared/config/vscode/settings.jsonc" \
         "$HOME/Library/Application Support/Code/User/settings.json"
 
     log_success "GUI apps ready"
