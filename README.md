@@ -29,7 +29,9 @@ arch/              # Arch Linux
   hyprland/         # Hyprland desktop: install.sh, setup.sh, security.sh,
                      # config/ (hypr, waybar, rofi, swaync, uwsm), scripts/
                      # (keybind helpers), themes/
-  cosmic/           # COSMIC desktop: install.sh, setup.sh
+  cosmic/           # COSMIC desktop: install.sh, setup.sh, capture-config.sh,
+                     # config/ (tracked COSMIC settings, fuzzel, systemd unit),
+                     # scripts/ (clipboard-history picker)
   kde/              # KDE Plasma desktop: install.sh, setup.sh
 
 macos/             # macOS
@@ -145,7 +147,70 @@ system unbootable) — the script prints exact instructions instead:
 
 `xdg-desktop-portal-gtk` (so GTK apps render correctly under COSMIC) and the
 cosmic-greeter NumLock config. COSMIC bundles its own file manager and media
-apps, so there's no GNOME-app-suite step here.
+apps, so there's no GNOME-app-suite step here. `network-manager-applet` is
+removed rather than installed — COSMIC has its own network applet, so the
+GTK one only adds a duplicate tray icon.
+
+**Universal copy/paste.** SUPER+C and SUPER+V copy and paste everywhere, the
+way Omarchy does it on Hyprland. COSMIC's shortcut actions can only spawn a
+command or drive a window — there is no "send a keystroke" action — so the
+remap happens below the compositor in `keyd` (`/etc/keyd/default.conf`).
+They map to Ctrl+Insert and Shift+Insert, the legacy combos that GTK, Qt,
+Electron and terminals all honour, so one binding covers every app without
+per-window special-casing.
+
+Two details there are load-bearing. `[meta:M]` keeps SUPER working for
+everything *not* explicitly bound, which is what leaves SUPER+W, SUPER+E and
+the rest of the COSMIC shortcuts alive. The `[meta+shift]` composite layer
+hands SUPER+SHIFT+V back to the compositor — without it the plain `v`
+binding still fires with Shift merely passed through, and COSMIC never sees
+the combo at all. Composite layers must be declared *after* the layers they
+are built from.
+
+**Clipboard history** on SUPER+SHIFT+V: `cliphist` records every clipboard
+change via a systemd *user* service, and a `fuzzel` picker
+(`/usr/local/bin/clipboard-history`) selects from it. COSMIC has no
+clipboard manager of its own, and its one community applet is panel-click
+only — no keybinding is possible — hence this pair instead. Ghostty needs
+the matching `shift+insert=paste_from_clipboard` override in
+`shared/config/ghostty/config`; its default binds that to
+`paste_from_selection`, which pastes the mouse-highlight rather than what
+SUPER+C copied.
+
+**External monitor brightness.** COSMIC's settings daemon has spoken DDC/CI
+since 1.0.14, so the brightness keys need no script — only `/dev/i2c-*`
+nodes the session can reach. `ddcutil` is installed for the
+`modules-load.d` and udev snippets it ships, which provide exactly that;
+`ddcutil detect` is also how to diagnose a monitor with DDC/CI switched off
+in its own OSD menu. Desktops have no `/sys/class/backlight`, so the
+brightness bindings do nothing at all until this is in place.
+
+#### Tracked COSMIC settings — read this before re-running the installer
+
+The theme, panel, dock, pinned dock apps and keyboard shortcuts are tracked
+in `cosmic/config/cosmic/`, one directory per COSMIC config ID, listed in
+`cosmic/config/cosmic-ids.txt`.
+
+**These are installed wholesale.** Anything tweaked afterwards in COSMIC
+Settings is silently overwritten the next time `setup.sh` runs. That is a
+real trap across ~60 theme files alone, so the loop is two-way:
+
+```
+tweak in COSMIC Settings  →  ./arch/cosmic/capture-config.sh  →  git diff  →  commit
+```
+
+`capture-config.sh` copies the live settings back out of `~/.config/cosmic`
+into the repo. Both directions read `cosmic-ids.txt`, so they cannot drift,
+and tracking something new is one line in that file plus a re-capture — no
+code change. Capture *replaces* rather than merges, so a setting removed in
+the UI also disappears from the repo instead of lingering as a stale tracked
+file; the cost is that hand-edits under `config/cosmic/` are overwritten by
+the next capture, so treat the UI as the source of truth for these.
+
+For the theme, both `CosmicTheme.Dark.Builder` and the derived
+`CosmicTheme.Dark` are tracked — the Builder is what COSMIC generates from,
+but shipping the derived output means a fresh machine looks right
+immediately instead of waiting for a regeneration.
 
 ### KDE Plasma desktop setup
 
