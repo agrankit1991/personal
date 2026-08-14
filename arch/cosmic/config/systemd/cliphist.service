@@ -1,0 +1,18 @@
+[Unit]
+Description=Clipboard history daemon (cliphist)
+Documentation=https://github.com/sentriz/cliphist
+# Bound to the graphical session so it starts with COSMIC and stops with it.
+# COSMIC imports WAYLAND_DISPLAY into the systemd user environment, which is
+# what lets wl-paste find the compositor from here.
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+# One watcher covers both text and images — cliphist infers the MIME type.
+ExecStart=/usr/bin/wl-paste --watch /usr/bin/cliphist store
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

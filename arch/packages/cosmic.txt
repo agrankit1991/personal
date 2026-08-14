@@ -1,2 +1,5 @@
 xdg-desktop-portal-gtk
 keyd
+cliphist
+wl-clipboard
+fuzzel

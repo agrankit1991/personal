@@ -1,0 +1,21 @@
+#!/bin/bash
+# Clipboard history picker, bound to SUPER+SHIFT+V by the COSMIC shortcuts
+# this repo installs. cliphist keeps the history; fuzzel is the picker.
+#
+# Selecting an entry puts it back on the clipboard — press SUPER+V to paste
+# it. `cliphist decode` turns the chosen list line back into the original
+# bytes, which is what keeps images and exact whitespace intact.
+
+set -euo pipefail
+
+# The prompt is the Nerd Font clipboard glyph U+F0EA, replacing fuzzel's
+# default "> ". It has to be passed as a flag: fuzzel.ini rejects an empty
+# value outright, so the prompt can't be blanked or set there. The glyph
+# only renders because fuzzel.ini uses a Nerd Font — see font= there.
+#
+# Cancelling fuzzel (Escape) must leave the clipboard untouched — piping
+# straight through to wl-copy would blank it on an empty selection.
+selection="$(cliphist list | fuzzel --dmenu --prompt='  ')" || exit 0
+[ -n "$selection" ] || exit 0
+
+printf '%s' "$selection" | cliphist decode | wl-copy

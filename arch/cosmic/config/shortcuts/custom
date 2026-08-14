@@ -1,0 +1,73 @@
+{
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "F5",
+    ): System(VolumeLower),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "w",
+    ): Close,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "F7",
+    ): System(BrightnessUp),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "F6",
+    ): System(Mute),
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "F5",
+    ): System(BrightnessDown),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "q",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "F7",
+    ): System(VolumeRaise),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "t",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "e",
+        description: Some("Editor"),
+    ): Spawn("code"),
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "v",
+        description: Some("Clipboard history"),
+    ): Spawn("clipboard-history"),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "Return",
+    ): System(Terminal),
+}

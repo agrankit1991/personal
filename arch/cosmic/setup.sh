@@ -43,6 +43,12 @@ EOF
     # the layer's own modifier (giving a clean Ctrl+Insert), while unmapped
     # keys keep Meta — which is what leaves SUPER+W, SUPER+E and the rest of
     # the COSMIC shortcuts working.
+    #
+    # The [meta+shift] composite layer exists to give SUPER+SHIFT+V back to
+    # the compositor: without it, the `v` binding above still fires with
+    # Shift merely passed through, so COSMIC would never see the combo the
+    # clipboard-history shortcut is bound to. Composite layers must be
+    # declared after the layers they're built from.
     log_info "Configuring universal copy/paste (keyd)..."
     sudo mkdir -p /etc/keyd
     sudo tee /etc/keyd/default.conf > /dev/null <<'EOF'
@@ -52,10 +58,45 @@ EOF
 [meta:M]
 c = C-insert
 v = S-insert
+
+[meta+shift]
+v = M-S-v
 EOF
     sudo systemctl enable --now keyd.service
     sudo keyd reload
     log_success "SUPER+C / SUPER+V bound to copy/paste"
+
+    # Clipboard history: cliphist records every clipboard change, fuzzel
+    # picks from it on SUPER+SHIFT+V. COSMIC has no clipboard manager of its
+    # own, and its one community applet is panel-click only — no keybinding
+    # is possible — hence the cliphist/fuzzel pair instead.
+    log_info "Configuring clipboard history..."
+    local cosmic_dir="$repo_root/arch/cosmic"
+
+    # /usr/local/bin rather than $HOME/scripts (where the Hyprland helpers
+    # go) so the COSMIC shortcut can spawn it by bare name off PATH, the way
+    # Spawn("code") works — no absolute $HOME path baked into the config.
+    sudo install -Dm755 "$cosmic_dir/scripts/clipboard-history" \
+        /usr/local/bin/clipboard-history
+
+    install_dir "$cosmic_dir/config/fuzzel" "$HOME/.config/fuzzel"
+    install_file "$cosmic_dir/config/systemd/cliphist.service" \
+        "$HOME/.config/systemd/user/cliphist.service"
+    systemctl --user daemon-reload
+    systemctl --user enable cliphist.service
+    # restart, not `enable --now`: --now is a no-op when the unit is already
+    # running, so re-running the installer would leave a stale watcher in
+    # place. A freshly-started instance is also the only thing that reliably
+    # got stores landing in the cliphist db during setup.
+    systemctl --user restart cliphist.service
+    log_success "Clipboard history running (SUPER+SHIFT+V)"
+
+    # Replaces the whole custom-shortcuts map, so add new bindings to
+    # config/shortcuts/custom rather than through COSMIC Settings — anything
+    # set in the UI is overwritten on the next run.
+    log_info "Installing COSMIC custom shortcuts..."
+    install_file "$cosmic_dir/config/shortcuts/custom" \
+        "$HOME/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom"
 
     log_success "COSMIC desktop setup complete"
 }
