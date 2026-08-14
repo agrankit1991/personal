@@ -12,6 +12,12 @@ install_apps_component() {
     read_package_list "$repo_root/macos/packages/apps-casks.txt"
     install_cask "${PACKAGE_LIST[@]}"
 
+    # See the note in arch/components/apps.sh: shared content, per-OS paths.
+    # Zed isn't in apps-casks.txt, so only the VS Code config goes out here —
+    # add the Zed line alongside it if Zed ever joins the cask list.
+    install_file "$repo_root/shared/config/vscode/settings.json" \
+        "$HOME/Library/Application Support/Code/User/settings.json"
+
     log_success "GUI apps ready"
     log_info "OpenCode isn't in Homebrew as of this writing — install it manually from its own docs if you want it here"
 }

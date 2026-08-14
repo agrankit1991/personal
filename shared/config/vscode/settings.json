@@ -1,0 +1,10 @@
+// VS Code settings. As with the Zed config next door, the content is the
+// same everywhere but the path is not — Linux uses ~/.config/Code/User/ and
+// macOS uses ~/Library/Application Support/Code/User/ — so the per-OS apps
+// component installs it.
+{
+  // Formatting stays a deliberate action. Reformatting on save rewrites
+  // lines you never touched, which turns a one-line change into a noisy
+  // diff and makes review harder.
+  "editor.formatOnSave": false
+}

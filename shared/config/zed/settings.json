@@ -1,0 +1,10 @@
+// Zed settings. Content is identical on every OS, but the destination is
+// not — Linux reads ~/.config/zed/settings.json while macOS reads
+// ~/Library/Application Support/Zed/settings.json — so this is installed by
+// the per-OS apps component rather than install-dotfiles.sh.
+{
+  // Formatting stays a deliberate action. Reformatting on save rewrites
+  // lines you never touched, which turns a one-line change into a noisy
+  // diff and makes review harder.
+  "format_on_save": "off"
+}

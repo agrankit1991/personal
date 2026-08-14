@@ -24,6 +24,15 @@ install_apps_component() {
         install_flatpak_app "$app_id"
     done
 
+    # Editor settings. These live in shared/config/ because the content is
+    # cross-platform, but the destinations are not (macOS puts both under
+    # ~/Library/Application Support/), so they're installed here per OS
+    # rather than by install-dotfiles.sh.
+    install_file "$repo_root/shared/config/zed/settings.json" \
+        "$HOME/.config/zed/settings.json"
+    install_file "$repo_root/shared/config/vscode/settings.json" \
+        "$HOME/.config/Code/User/settings.json"
+
     log_success "GUI apps ready"
     log_info "Optional OpenCode setup: run 'opencode init' to configure API keys"
 }
