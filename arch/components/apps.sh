@@ -10,6 +10,9 @@ install_apps_component() {
     local repo_root
     repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
+    read_package_list "$repo_root/arch/packages/apps.txt"
+    install_pkg "${PACKAGE_LIST[@]}"
+
     read_package_list "$repo_root/arch/packages/apps-aur.txt"
     install_aur "${PACKAGE_LIST[@]}"
 
