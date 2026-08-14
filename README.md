@@ -28,7 +28,7 @@ arch/              # Arch Linux
                      # reference only, deliberately NOT a script (see below)
   hyprland/         # Hyprland desktop: install.sh, setup.sh, security.sh,
                      # config/ (hypr, waybar, rofi, swaync, uwsm), scripts/
-                     # (keybind helpers), themes/, wallpapers/
+                     # (keybind helpers), themes/
   cosmic/           # COSMIC desktop: install.sh, setup.sh
   kde/              # KDE Plasma desktop: install.sh, setup.sh
 
@@ -116,8 +116,14 @@ hyprpolkitagent, uwsm, ...), SDDM + NumLock, gnome-keyring, the GNOME app
 suite Hyprland doesn't bundle on its own (Nautilus, Loupe, Amberol, Showtime,
 Papers, codecs, thumbnailers), and the wallpaper-shuffler cron job. Also
 copies the tracked `hyprland/config/` tree into `~/.config`, the keybind
-helper scripts into `~/scripts`, the Bibata cursor theme into
-`~/.local/share/icons`, and the sample wallpapers into `~/Pictures/Wallpapers`.
+helper scripts into `~/scripts`, and the Bibata cursor theme into
+`~/.local/share/icons`.
+
+**Wallpapers are not tracked in this repo** — as multi-MB binaries they
+dwarfed every script and config in it put together. The setup only creates
+an empty `~/Pictures/Wallpapers`; drop your own images there and the
+shuffler cron job (every 30 min) picks them up. With the directory empty the
+shuffler simply exits without changing anything.
 
 An optional **Security hardening** component adds `ufw` (default-deny
 incoming) and enables the AppArmor service.

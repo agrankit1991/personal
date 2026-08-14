@@ -61,7 +61,11 @@ _install_hypr_config() {
     repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
     install_dir "$repo_root/arch/hyprland/scripts" "$HOME/scripts"
     install_dir "$repo_root/arch/hyprland/themes/icons" "$HOME/.local/share/icons"
-    install_dir "$repo_root/arch/hyprland/wallpapers" "$HOME/Pictures/Wallpapers"
+
+    # No wallpapers ship in this repo (they're multi-MB binaries that dwarfed
+    # everything else in it) — just create the directory the shuffler cron job
+    # reads from and let it stay empty until you drop your own images in.
+    mkdir -p "$HOME/Pictures/Wallpapers"
 }
 
 _install_hypr_keyring() {
