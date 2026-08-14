@@ -1,0 +1,22 @@
+# COSMIC config directories tracked by this repo, as they appear under
+# ~/.config/cosmic/. capture-config.sh copies these OUT of the live session
+# into config/cosmic/; setup.sh copies them back IN on a new machine.
+#
+# Add an ID here and re-run capture-config.sh to start tracking something
+# else. Everything listed is replaced wholesale on install, so a setting
+# tweaked in COSMIC Settings must be re-captured or it will be overwritten.
+
+# Theme. The Builder dir is the source of truth — COSMIC derives the theme
+# from it — but the derived dir is tracked too so a fresh machine matches
+# immediately instead of waiting for a regeneration.
+com.system76.CosmicTheme.Dark.Builder
+com.system76.CosmicTheme.Dark
+
+# Panel and dock. CosmicPanel itself is just the list of which panels exist;
+# the two that follow are their actual configuration.
+com.system76.CosmicPanel
+com.system76.CosmicPanel.Panel
+com.system76.CosmicPanel.Dock
+
+# Pinned dock apps.
+com.system76.CosmicAppList

@@ -111,5 +111,17 @@ EOF
     install_file "$cosmic_dir/config/shortcuts/custom" \
         "$HOME/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom"
 
+    # Theme, panel and dock. Same wholesale-replace caveat as the shortcuts
+    # above, over far more files — capture-config.sh is the way back out, so
+    # UI tweaks can be pulled into the repo instead of being overwritten.
+    # Both scripts read cosmic-ids.txt so the two directions can't drift.
+    log_info "Installing COSMIC theme, panel and dock settings..."
+    read_package_list "$cosmic_dir/config/cosmic-ids.txt"
+    local cfg_id
+    for cfg_id in "${PACKAGE_LIST[@]}"; do
+        install_dir "$cosmic_dir/config/cosmic/$cfg_id" \
+            "$HOME/.config/cosmic/$cfg_id"
+    done
+
     log_success "COSMIC desktop setup complete"
 }
