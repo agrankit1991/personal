@@ -23,5 +23,12 @@ numlock_state: BootOn,
 )
 EOF
     log_success "COSMIC greeter NumLock enabled"
+
+    # COSMIC has a built-in network applet, so network-manager-applet only
+    # adds a duplicate tray icon. Nothing here installs it — it arrives as a
+    # dependency of other desktop stacks — so remove it explicitly.
+    log_info "Removing duplicate network tray applet..."
+    remove_pkg network-manager-applet
+
     log_success "COSMIC desktop setup complete"
 }

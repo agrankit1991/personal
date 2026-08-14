@@ -18,6 +18,22 @@ install_pkg() {
     sudo pacman -S --needed --noconfirm "$@"
 }
 
+# The mirror image of install_pkg: -Rns also drops deps the removed package
+# dragged in that nothing else needs. Packages that aren't installed are
+# filtered out first, so a re-run is a no-op instead of a pacman error.
+remove_pkg() {
+    local pkg installed=()
+    for pkg in "$@"; do
+        pacman -Qq "$pkg" >/dev/null 2>&1 && installed+=("$pkg")
+    done
+    if [ "${#installed[@]}" -eq 0 ]; then
+        log_success "Already removed: $*"
+        return 0
+    fi
+    log_info "Removing (pacman): ${installed[*]}"
+    sudo pacman -Rns --noconfirm "${installed[@]}"
+}
+
 ensure_paru() {
     if command -v paru >/dev/null 2>&1; then
         log_success "paru already installed"
