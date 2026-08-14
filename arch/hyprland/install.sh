@@ -31,6 +31,7 @@ source "$REPO_ROOT/arch/components/dev-tools.sh"
 source "$REPO_ROOT/arch/components/postgres.sh"
 source "$REPO_ROOT/arch/components/apps.sh"
 source "$REPO_ROOT/arch/components/disk-utility.sh"
+source "$REPO_ROOT/arch/components/power-profiles.sh"
 source "$REPO_ROOT/arch/components/sddm-numlock.sh"
 source "$SCRIPT_DIR/setup.sh"
 source "$SCRIPT_DIR/security.sh"
@@ -45,6 +46,7 @@ checkbox_menu "Select components to install" \
     "apps|GUI apps (VS Code, Brave, OpenCode, Obsidian, ...)|off" \
     "git|Git/SSH configuration|off" \
     "disk-utility|Disk utility (GNOME Disks + FAT32/NTFS support)|on" \
+    "power-profiles|Power profiles (power-profiles-daemon)|on" \
     "hyprland|Hyprland desktop setup|on" \
     "security|Security hardening (ufw + AppArmor)|off"
 
@@ -57,14 +59,15 @@ cache_sudo
 sync_pacman
 ensure_paru
 
-menu_has terminal      && install_terminal_component
-menu_has dev-tools     && install_dev_tools_component
-menu_has postgres      && install_postgres_component
-menu_has apps          && install_apps_component
-menu_has git           && install_git
-menu_has disk-utility  && install_disk_utility_component
-menu_has hyprland      && install_hyprland_component
-menu_has security      && install_hyprland_security_component
+menu_has terminal       && install_terminal_component
+menu_has dev-tools      && install_dev_tools_component
+menu_has postgres       && install_postgres_component
+menu_has apps           && install_apps_component
+menu_has git            && install_git
+menu_has disk-utility   && install_disk_utility_component
+menu_has power-profiles && install_power_profiles_component
+menu_has hyprland       && install_hyprland_component
+menu_has security       && install_hyprland_security_component
 
 log_section "Done"
 log_success "Selected components installed"

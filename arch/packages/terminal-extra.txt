@@ -1,6 +1,9 @@
 # Arch-only additions to shared/packages/terminal.txt (unzip/man-db/etc.
-# ship standard on macOS, so they're not in the shared list).
+# ship standard on macOS, so they're not in the shared list; ghostty is a
+# plain pacman package here but a cask on macOS, so it lives in
+# macos/packages/terminal-casks.txt over there).
 man-db
 cmatrix
 rust
 unzip
+ghostty

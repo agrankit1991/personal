@@ -23,12 +23,18 @@ ensure_paru() {
         log_success "paru already installed"
         return 0
     fi
-    log_info "Installing paru (AUR helper)..."
-    install_pkg base-devel
+    # Build the source `paru` package, NOT `paru-bin` (or its -debug
+    # sibling) — the prebuilt binaries have proven unreliable here, so the
+    # few minutes of Rust compile time buy a helper that actually works.
+    # makepkg -s pulls in the cargo/rust makedep from the official repos on
+    # its own, which also means it leaves an existing rustup install alone
+    # instead of fighting it over the `rust` package.
+    log_info "Installing paru (AUR helper) — built from source, takes a few minutes..."
+    install_pkg base-devel git
     local build_dir
     build_dir="$(mktemp -d)"
-    git clone https://aur.archlinux.org/paru-bin.git "$build_dir/paru-bin"
-    (cd "$build_dir/paru-bin" && makepkg -si --noconfirm)
+    git clone https://aur.archlinux.org/paru.git "$build_dir/paru"
+    (cd "$build_dir/paru" && makepkg -si --noconfirm)
     rm -rf "$build_dir"
     log_success "paru installed"
 }

@@ -22,7 +22,8 @@ shared/           # Single source of truth for everything cross-platform
 arch/              # Arch Linux
   lib/pacman.sh     # pacman / paru (AUR) / flatpak wrappers
   packages/         # Arch-specific package/AUR/flatpak lists (see below)
-  components/       # terminal, dev-tools, postgres, apps, disk-utility, sddm-numlock
+  components/       # terminal, dev-tools, postgres, apps, disk-utility,
+                     # power-profiles, sddm-numlock
   ARCH_INSTALL.md   # base Arch install (disk partitioning, bootloader, BTRFS) —
                      # reference only, deliberately NOT a script (see below)
   hyprland/         # Hyprland desktop: install.sh, setup.sh, security.sh,
@@ -70,7 +71,10 @@ into the array `PACKAGE_LIST` for a component script to pass straight to
 Each script asks for `sudo` once up front (cached for the run). On Arch,
 `paru` (the AUR helper) is always bootstrapped unconditionally right after —
 every component may need an AUR package, so it isn't gated behind any menu
-selection. The script then asks which components to install. Every step is
+selection. It's built from the **source** `paru` AUR package rather than
+`paru-bin`/`paru-bin-debug`, whose prebuilt binaries have proven unreliable
+here; that costs a few minutes of Rust compile time on a fresh machine.
+The script then asks which components to install. Every step is
 safe to re-run: config files are only touched if their content actually
 changed (and the *first* differing file is backed up to `<name>.backup` —
 later re-runs won't clobber that backup with our own previously-installed
@@ -80,8 +84,10 @@ manager's NumLock config are written idempotently.
 ### Components (per script)
 
 - **Terminal environment** — zsh + Oh My Zsh (+ 4 plugins), Starship prompt,
-  modern CLI tools (ripgrep, fd, bat, eza, zoxide, fzf, btop, ...), Neovim +
-  LazyVim, mise, JetBrains Mono Nerd Font.
+  modern CLI tools (ripgrep, fd, bat, eza, zoxide, fzf, btop, ...), Ghostty
+  (the terminal emulator the shared `config/ghostty` dotfile configures —
+  a pacman package on Arch, a cask on macOS), Neovim + LazyVim, mise,
+  JetBrains Mono Nerd Font.
 - **Dev tools** — Docker + mise-managed Java/Node/Gradle.
 - **PostgreSQL** *(optional, off by default)* — a local dev Postgres
   instance with a throwaway `dev`/`dev` role and database.
@@ -89,13 +95,18 @@ manager's NumLock config are written idempotently.
   `intellij-idea-ultimate-edition` — JetBrains merged Community/Ultimate
   into one unified download in the 2025.3 release, so this is the correct
   package now; unlicensed it behaves as Community used to, with an optional
-  paid upgrade), Brave, Obsidian, DBeaver, etc. (OpenCode too, on Arch — not
-  in Homebrew as of this writing).
+  paid upgrade), Brave, Obsidian, DBeaver, etc. (OpenCode and Claude Code
+  too, on Arch — both AUR, neither in Homebrew as of this writing).
 - **Git/SSH configuration** — identity, aliases, global excludes/commit
   template, and an ed25519 SSH key for GitHub (skips key generation if one
   already exists).
 - **Disk utility** *(Arch only, on by default)* — GNOME Disks plus FAT32
   (`dosfstools`) and NTFS (`ntfs-3g`) support.
+- **Power profiles** *(Arch only, on by default)* — `power-profiles-daemon`,
+  enabled as a service, so the desktop's Performance / Balanced / Power
+  Saver switcher (and `powerprofilesctl`) works. Warns instead of acting if
+  `tlp` is enabled, since the two conflict and picking between them is a
+  real choice.
 - **Desktop setup** *(on by default)* — see below.
 
 ### Hyprland desktop setup
