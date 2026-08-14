@@ -20,3 +20,9 @@ com.system76.CosmicPanel.Dock
 
 # Pinned dock apps.
 com.system76.CosmicAppList
+
+# Keyboard shortcuts: `custom` holds the user-defined bindings, and
+# `system_actions` overrides what COSMIC's built-in actions run (it's what
+# points Terminal at ghostty). Both are partial overlays on the defaults in
+# /usr/share/cosmic, so only what's set here deviates from stock.
+com.system76.CosmicSettings.Shortcuts

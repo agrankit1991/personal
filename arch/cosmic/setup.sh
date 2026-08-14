@@ -104,18 +104,12 @@ EOF
     sudo modprobe i2c-dev
     log_success "DDC/CI enabled for external monitors"
 
-    # Replaces the whole custom-shortcuts map, so add new bindings to
-    # config/shortcuts/custom rather than through COSMIC Settings — anything
-    # set in the UI is overwritten on the next run.
-    log_info "Installing COSMIC custom shortcuts..."
-    install_file "$cosmic_dir/config/shortcuts/custom" \
-        "$HOME/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom"
-
-    # Theme, panel and dock. Same wholesale-replace caveat as the shortcuts
-    # above, over far more files — capture-config.sh is the way back out, so
-    # UI tweaks can be pulled into the repo instead of being overwritten.
-    # Both scripts read cosmic-ids.txt so the two directions can't drift.
-    log_info "Installing COSMIC theme, panel and dock settings..."
+    # Shortcuts, theme, panel and dock — every tracked COSMIC config dir.
+    # Each is replaced wholesale, so a binding or theme tweak made in COSMIC
+    # Settings is overwritten on the next run; capture-config.sh is the way
+    # back out, pulling UI changes into the repo. Both scripts read
+    # cosmic-ids.txt, so the two directions cannot drift.
+    log_info "Installing COSMIC shortcuts, theme, panel and dock settings..."
     read_package_list "$cosmic_dir/config/cosmic-ids.txt"
     local cfg_id
     for cfg_id in "${PACKAGE_LIST[@]}"; do

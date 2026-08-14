@@ -39,6 +39,11 @@ for cfg_id in "${PACKAGE_LIST[@]}"; do
     mkdir -p "$(dirname "$dst")"
     cp -r "$src" "$dst"
 
+    # install_file drops a DEST.backup next to anything it replaced. Those
+    # are local artefacts of a previous install, not settings, and tracking
+    # one would install it right back on the next run.
+    find "$dst" -name '*.backup' -delete
+
     log_success "$cfg_id ($(find "$dst" -type f | wc -l) files)"
     captured=$((captured + 1))
 done
