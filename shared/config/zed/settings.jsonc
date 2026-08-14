@@ -8,6 +8,17 @@
 // gets linted as strict JSON, which flags every comment as an error.
 {
   // ---------------------------------------------------------------- saving
+  // Autosave a second after you stop typing, matching the VS Code config.
+  // Zed also flushes an unsaved tab when it closes, even before the delay
+  // elapses. With saves this frequent, anything that rewrites the file on
+  // save would be reformatting your code mid-thought — hence the settings
+  // immediately below.
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+
   // Saving writes exactly what you typed — no reformat, no trimming, no
   // appended newline — so a diff only ever shows lines you actually edited.
   // Kept deliberately in step with the VS Code config next door.
