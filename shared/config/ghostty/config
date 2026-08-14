@@ -25,3 +25,8 @@ window-padding-y = 0
 
 # Startup directory
 working-directory = ~/code
+
+# Universal copy/paste (see arch/cosmic/setup.sh): keyd turns SUPER+V into
+# Shift+Insert, but Ghostty's default for that is paste_from_selection —
+# the mouse-highlight primary selection, not what SUPER+C actually copied.
+keybind = shift+insert=paste_from_clipboard
