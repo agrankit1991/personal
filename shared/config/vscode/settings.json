@@ -3,8 +3,51 @@
 // macOS uses ~/Library/Application Support/Code/User/ — so the per-OS apps
 // component installs it.
 {
-  // Formatting stays a deliberate action. Reformatting on save rewrites
-  // lines you never touched, which turns a one-line change into a noisy
-  // diff and makes review harder.
-  "editor.formatOnSave": false
+  // ---------------------------------------------------------------- saving
+  // Saving writes exactly what you typed. Nothing reformats, retrims or
+  // appends, so a diff only ever shows lines you actually edited — a stray
+  // whitespace commit buried in a real change is noise reviewers pay for.
+  // Format deliberately with Shift+Alt+F instead.
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "files.trimTrailingWhitespace": false,
+  "files.insertFinalNewline": false,
+  "files.trimFinalNewlines": false,
+
+  // The trade-off of never trimming is that trailing whitespace accumulates
+  // unseen, so render it rather than leaving it invisible.
+  "editor.renderWhitespace": "trailing",
+
+  // LF everywhere, regardless of which OS this config lands on.
+  "files.eol": "\n",
+
+  // ------------------------------------------------------------ appearance
+  // Same font as Ghostty and the fuzzel picker, so every surface matches.
+  "editor.fontFamily": "'JetBrainsMono Nerd Font', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 13,
+  "workbench.colorTheme": "Default Dark Modern",
+  "editor.stickyScroll.enabled": true,
+  "editor.linkedEditing": true,
+  "explorer.compactFolders": false,
+  "workbench.startupEditor": "none",
+
+  // -------------------------------------------------------------- terminal
+  "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
+  "terminal.integrated.defaultProfile.linux": "zsh",
+
+  // ------------------------------------------------------------------ java
+  // Mirrors shared/ide/eclipse-java-google-style.xml and its IntelliJ twin,
+  // which both set indentation 4 and a 120-column limit. Note that is not
+  // upstream Google style (2 / 100) — these follow the tracked XMLs, so the
+  // editors agree with whatever IntelliJ and Eclipse are doing.
+  "[java]": {
+    "editor.tabSize": 4,
+    "editor.rulers": [120]
+  },
+
+  // ------------------------------------------------------------------ misc
+  "git.autofetch": true,
+  "telemetry.telemetryLevel": "off"
 }

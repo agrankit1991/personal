@@ -3,8 +3,41 @@
 // ~/Library/Application Support/Zed/settings.json — so this is installed by
 // the per-OS apps component rather than install-dotfiles.sh.
 {
-  // Formatting stays a deliberate action. Reformatting on save rewrites
-  // lines you never touched, which turns a one-line change into a noisy
-  // diff and makes review harder.
-  "format_on_save": "off"
+  // ---------------------------------------------------------------- saving
+  // Saving writes exactly what you typed — no reformat, no trimming, no
+  // appended newline — so a diff only ever shows lines you actually edited.
+  // Kept deliberately in step with the VS Code config next door.
+  "format_on_save": "off",
+  "remove_trailing_whitespace_on_save": false,
+  "ensure_final_newline_on_save": false,
+
+  // Since nothing is trimmed automatically, surface stray whitespace rather
+  // than leaving it invisible. Zed offers all/selection/none/boundary here —
+  // there is no trailing-only mode as in VS Code, so boundary is the closest.
+  "show_whitespaces": "boundary",
+
+  // ------------------------------------------------------------ appearance
+  // Same font as Ghostty and the fuzzel picker. calt enables the ligatures
+  // JetBrainsMono ships.
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_size": 13,
+  "buffer_font_features": { "calt": true },
+  "theme": "One Dark",
+  "soft_wrap": "none",
+
+  // ------------------------------------------------------------------ java
+  // Matches shared/ide/*-google-style.xml (indent 4, 120 columns) rather
+  // than upstream Google style (2 / 100) — see the VS Code config for why.
+  "languages": {
+    "Java": {
+      "tab_size": 4,
+      "preferred_line_length": 120
+    }
+  },
+
+  // ------------------------------------------------------------------ misc
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  }
 }
