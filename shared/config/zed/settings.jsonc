@@ -7,13 +7,18 @@
 // so the comments below survive, but a bare settings.json sitting in a repo
 // gets linted as strict JSON, which flags every comment as an error.
 {
-  // ------------------------------------------------------------------- cli
-  // `zed <path>` gets its own window instead of adding the path to whichever
-  // window happens to be focused, so an editor opened from a shell stays
-  // scoped to the directory that shell was in. Zed still routes the path into
-  // an open project when it is a subpath of one. Override per-invocation with
-  // -e/--existing (current window) or -a/--add (add to current workspace).
+  // -------------------------------------------------------- opening projects
+  // One project per window, whichever way it was opened: the alternative
+  // (`existing_window`) adds the project to the focused window's sidebar, so
+  // what you get depends on which window happened to have focus. Zed splits
+  // the setting by entry point, so both halves are set to keep them in step.
+  //
+  // From the shell. Zed still routes the path into an open project when it is
+  // a subpath of one. Override per-invocation with -e/--existing (current
+  // window) or -a/--add (add to current workspace).
   "cli_default_open_behavior": "new_window",
+  // From the UI — the recent-projects picker and "Open…".
+  "default_open_behavior": "new_window",
 
   // ----------------------------------------------------------------- agent
   // Written by Zed itself when the model is picked in the agent panel, so
