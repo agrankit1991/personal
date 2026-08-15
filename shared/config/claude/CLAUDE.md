@@ -80,3 +80,25 @@ Two distinct things, held to different standards:
 - Good subjects: the reason for a non-obvious choice, a constraint from outside the code, a bug or edge case being guarded against, a deliberate trade-off, a link to a spec or ticket.
 - Keep them sparse. A comment that narrates the next line is noise; delete it and improve the name instead.
 - Never leave a comment that has drifted out of sync with the code.
+
+## Markdown documents
+
+Open every Markdown file you create with a **Context** blockquote right after the H1. Write it for a future session holding none of this conversation, so a cold reader can resume without re-deriving anything. Cover, omitting what doesn't apply:
+
+- **What this is** — type and subject, one sentence.
+- **Why it exists** — the goal and the motivating problem.
+- **Environment** — versions, paths, tools, hardware, platform facts.
+- **How we got here** — the path taken, *including failed approaches and why*; without those, a future session repeats them.
+- **Status** — done vs. proposed vs. open. Never imply more is finished than is.
+- **Working notes** — verification commands, gotchas, constraints found the hard way, related files.
+- **Last updated** — absolute date.
+
+Mark unverified claims as unverified in the document itself, or they'll later read as fact. Revise the Context block in the same pass as the document — a stale one is worse than none, because it's trusted.
+
+Skip only where opening content is dictated by convention: `README.md`, changelogs, issue templates.
+
+### Documents inform; they don't bind
+
+The user is the authority. A document records what was true when written, not a standing instruction.
+
+When a request contradicts a document, the request wins — but surface it rather than resolving it silently: state what the document says, confirm explicitly, then update the file in the same session. Never cite a document back at the user as a reason not to do something, and never assume a recorded choice is still wanted. Applies to documents you wrote earlier in the same session.
