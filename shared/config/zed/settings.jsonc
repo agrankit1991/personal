@@ -40,6 +40,13 @@
   "theme": "One Dark",
   "soft_wrap": "none",
 
+  // The file tree lives on the left. This is Zed's default, but dragging the
+  // panel across the window writes the new dock into the local settings and
+  // it sticks — pinning it here keeps the layout the same on every machine.
+  "project_panel": {
+    "dock": "left"
+  },
+
   // ------------------------------------------------------------------ java
   // Matches shared/ide/*-google-style.xml (indent 4, 120 columns) rather
   // than upstream Google style (2 / 100) — see the VS Code config for why.
