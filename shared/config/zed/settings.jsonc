@@ -72,8 +72,20 @@
   // The file tree lives on the left. This is Zed's default, but dragging the
   // panel across the window writes the new dock into the local settings and
   // it sticks — pinning it here keeps the layout the same on every machine.
+  //
+  // These dock positions are load-bearing for the keymap, not just cosmetic.
+  // Zed has no per-panel hide action, only per-dock ones, so keymap.jsonc binds
+  // alt-shift-1/2/3 to the left/bottom/right docks and relies on project being
+  // left, terminal bottom and git right for those to line up with alt-1/2/3.
+  // Move a panel to a different dock and that pairing silently breaks.
   "project_panel": {
     "dock": "left"
+  },
+  "git_panel": {
+    "dock": "right"
+  },
+  "terminal": {
+    "dock": "bottom"
   },
 
   // ------------------------------------------------------------------ java

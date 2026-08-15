@@ -1,0 +1,167 @@
+// Zed keymap — personal Alt-centric scheme.
+//
+// keybindings.md at the root of this repo is the reference sheet, and covers the
+// same scheme as applied to VS Code and IntelliJ. Read it before changing
+// anything here; the value of this scheme is that a forgotten binding can be
+// *derived* rather than looked up, and that only holds while the grammar stays
+// intact. The design rationale and decisions log are kept outside this repo.
+//
+// Grammar — each modifier has one fixed meaning:
+//   Alt         navigate .... take me somewhere
+//   Alt+Shift   the same action, widened in scope or reversed in direction
+//   Ctrl+Alt    transform .... change the code
+//   Alt+digit   panels ....... show me a tool window
+//
+// Related actions share a base key and let the modifier express the
+// relationship: Alt+J go to definition -> Alt+Shift+J go to implementation.
+//
+// Plain Ctrl is the universal set (copy/paste/find/save) and is left alone, with
+// one deliberate and CLOSED exception: Ctrl+D / Ctrl+Shift+D hold the line
+// operations, inherited from IntelliJ muscle memory. Nothing else moves onto
+// plain Ctrl — see the "Derive it" section of keybindings.md for why.
+//
+// Every action name below was verified to exist in /usr/lib/zed/zed-editor.
+[
+  {
+    // Scoped to the editor so the built-in terminal keeps its own keys: Alt+F
+    // and Alt+B are readline word-jump, and Ctrl+D is end-of-input.
+    "context": "Editor",
+    "bindings": {
+      // ---- Jump to code ----
+      "alt-j": "editor::GoToDefinition",
+      // Widened: one declaration opens into its concrete implementations.
+      "alt-shift-j": "editor::GoToImplementation",
+
+      // ---- Diagnostics ---- walk the current file's errors and warnings.
+      "alt-e": "editor::GoToDiagnostic",
+      "alt-shift-e": "editor::GoToPreviousDiagnostic",
+
+      // ---- Symbols ---- m for members. Shift widens file -> whole project.
+      "alt-m": "outline::Toggle",
+      "alt-shift-m": "project_symbols::Toggle",
+
+      // ---- Open ---- Shift widens a file -> a whole project.
+      "alt-o": "file_finder::Toggle",
+      "alt-shift-o": "projects::OpenRecent",
+
+      // ---- Text search ---- Ctrl+F stays untouched as find-in-file; this is
+      // its widened form. The only pair that crosses modifier tiers, forced by
+      // Ctrl+F being off-limits.
+      "alt-shift-f": "pane::DeploySearch",
+
+      // ---- History ---- browser back/forward idiom, for cursor position.
+      "alt-left": "pane::GoBack",
+      "alt-right": "pane::GoForward",
+
+      // ---- References ---- the inverse of go-to-definition. No wider form.
+      "alt-u": "editor::FindAllReferences",
+
+      // ---- Quick fix ---- kept verbatim from IntelliJ.
+      "alt-enter": "editor::ToggleCodeActions",
+
+      // ---- Multi-cursor by position ---- drop a cursor on the line above or
+      // below, for column edits. Unbound in stock Zed. Sits in the Alt tier
+      // rather than Ctrl+Alt because Ctrl+Alt+arrows already move lines, and
+      // adding a cursor changes position rather than text. Escape clears them.
+      "alt-shift-up": "editor::AddSelectionAbove",
+      "alt-shift-down": "editor::AddSelectionBelow",
+
+      // ---- Transform ---- Ctrl+Alt: change the code rather than move around.
+      "ctrl-alt-r": "editor::Rename",
+      "ctrl-alt-f": "editor::Format",
+      "ctrl-alt-i": "editor::OrganizeImports",
+      "ctrl-alt-n": "editor::SelectNext",
+      "ctrl-alt-up": "editor::MoveLineUp",
+      "ctrl-alt-down": "editor::MoveLineDown",
+      // Grow/shrink by syntax node: word -> expression -> block.
+      "ctrl-alt-=": "editor::SelectLargerSyntaxNode",
+      "ctrl-alt--": "editor::SelectSmallerSyntaxNode",
+
+      // ---- Line operations ---- the documented plain-Ctrl exception.
+      "ctrl-d": "editor::DuplicateLineDown",
+      "ctrl-shift-d": "editor::DeleteLine"
+    }
+  },
+  {
+    // The panel keys, bound TWICE on purpose — see the Pane block below.
+    //
+    // This Workspace block is what fires when focus is already inside a panel
+    // (project panel, git panel, terminal), so you can hop straight from one
+    // panel to another instead of having to click back into the editor first.
+    "context": "Workspace",
+    "bindings": {
+      "alt-1": "project_panel::ToggleFocus",
+      // Toggle rather than ToggleFocus: Zed offers no ToggleFocus for the
+      // terminal, so a second press hides the panel instead of returning focus.
+      "alt-2": "terminal_panel::Toggle",
+      "alt-3": "git_panel::ToggleFocus",
+      "alt-4": "agent::ToggleFocus",
+      "alt-5": "diagnostics::Deploy",
+      // Close whichever dock currently has focus. Pressing alt-<n> a second
+      // time only returns focus to the editor and leaves the panel open, so
+      // this is what actually dismisses it.
+      "alt-0": "workspace::CloseActiveDock",
+
+      // ---- Hide a panel — alt-shift-<n>, the inverse of alt-<n> ----
+      //
+      // These toggle DOCKS, because Zed has no per-panel close action — only
+      // terminal_panel::Toggle is a real toggle; every other panel offers just
+      // ToggleFocus. There are three docks and five panels, so a hide key per
+      // panel is not buildable.
+      //
+      // It lines up anyway, because of where these panels are docked:
+      //
+      //     alt-1 project  -> left dock   -> alt-shift-1
+      //     alt-2 terminal -> bottom dock -> alt-shift-2
+      //     alt-3 git      -> right dock  -> alt-shift-3
+      //
+      // So alt-shift-<n> reads as the inverse of alt-<n>, per principle 5. This
+      // depends on the dock layout above; move a panel to another dock and the
+      // pairing silently breaks. The dock positions are pinned in
+      // shared/config/zed/settings.jsonc to keep that from happening.
+      //
+      // 4 and 5 have no hide key. The agent panel shares the right dock with
+      // git, so alt-shift-3 already hides it. Diagnostics opens as an editor tab
+      // rather than a dock, and closing it would mean CloseActiveItem, which
+      // closes whatever tab is focused — including a code file. Use ctrl-w while
+      // the diagnostics tab is focused instead.
+      //
+      // Unlike alt-<n>, these work regardless of where focus currently is.
+      //
+      // WRITTEN AS SYMBOLS, NOT AS alt-shift-<digit>. On Linux Zed identifies a
+      // shifted digit by the character it produces, so alt+shift+1 arrives as
+      // "alt-!" and a binding spelled "alt-shift-1" never matches. Confirmed by
+      // testing both spellings: only these fire. Zed's own keymaps use the same
+      // form — "alt-^" for alt+shift+6, "ctrl-@" for ctrl+shift+2. Letters and
+      // arrows are unaffected and keep the shift-<key> spelling, which is why
+      // alt-shift-j and alt-shift-up work.
+      //
+      // These symbols assume a US layout, which is pinned in COSMIC's xkb_config.
+      "alt-!": "workspace::ToggleLeftDock",
+      "alt-@": "workspace::ToggleBottomDock",
+      "alt-#": "workspace::ToggleRightDock"
+    }
+  },
+  {
+    // The same six bindings again, at Pane depth. This is not redundant.
+    //
+    // Zed resolves a keystroke to the MOST SPECIFIC matching context, and the
+    // focus chain is Workspace > Pane > Editor. Zed's default keymap binds
+    // alt-1..alt-5 in the Pane context to ["pane::ActivateItem", N] — switch to
+    // tab N. With the cursor in a file, that Pane binding is more specific than
+    // the Workspace block above, so it wins and the panel keys appear dead
+    // while actually switching tabs.
+    //
+    // Binding them here at the same Pane depth lets user precedence take over.
+    // Deleting this block silently reverts alt-1..5 to tab switching.
+    "context": "Pane",
+    "bindings": {
+      "alt-1": "project_panel::ToggleFocus",
+      "alt-2": "terminal_panel::Toggle",
+      "alt-3": "git_panel::ToggleFocus",
+      "alt-4": "agent::ToggleFocus",
+      "alt-5": "diagnostics::Deploy",
+      "alt-0": "workspace::CloseActiveDock"
+    }
+  }
+]

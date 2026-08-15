@@ -38,6 +38,13 @@ install_apps_component() {
     # committing rather than assuming the comment blocks survived intact.
     link_file "$repo_root/shared/config/zed/settings.jsonc" \
         "$HOME/.config/zed/settings.json"
+    # Zed's keybindings; keybindings.md at the repo root is the reference. The
+    # same write-back caveat applies: Zed ships a keymap editor UI that rewrites
+    # this file, so a binding added through it lands in the repo rather than
+    # being lost, but the comments explaining the modifier grammar may not
+    # survive.
+    link_file "$repo_root/shared/config/zed/keymap.jsonc" \
+        "$HOME/.config/zed/keymap.json"
     link_file "$repo_root/shared/config/vscode/settings.jsonc" \
         "$HOME/.config/Code/User/settings.json"
 
