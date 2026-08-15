@@ -1,6 +1,7 @@
 {
   "theme": "auto",
   "permissions": {
+    "defaultMode": "default",
     "additionalDirectories": [
       "/home/bawandar/code"
     ],
