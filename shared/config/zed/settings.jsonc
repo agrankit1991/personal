@@ -7,6 +7,22 @@
 // so the comments below survive, but a bare settings.json sitting in a repo
 // gets linted as strict JSON, which flags every comment as an error.
 {
+  // ----------------------------------------------------------------- agent
+  // Written by Zed itself when the model is picked in the agent panel, so
+  // expect it to be rewritten in place rather than hand-edited. No credential
+  // belongs in this block: Zed keeps provider API keys in the system
+  // credential store (or reads OPENCODE_API_KEY from the environment), never
+  // in settings.json — which is what makes this file safe to track.
+  "agent": {
+    "default_model": {
+      "provider": "opencode",
+      "model": "go/kimi-k2.7-code",
+      "enable_thinking": false
+    },
+    "favorite_models": [],
+    "model_parameters": []
+  },
+
   // ---------------------------------------------------------------- saving
   // Autosave a second after you stop typing, matching the VS Code config.
   // Zed also flushes an unsaved tab when it closes, even before the delay
