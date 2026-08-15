@@ -36,8 +36,8 @@ install_git() {
     git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
     git config --global alias.lp "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short"
 
-    install_file "$shared_git_dir/gitignore" "$HOME/.config/git/.gitignore"
-    install_file "$shared_git_dir/gitmessage" "$HOME/.config/git/.gitmessage"
+    link_file "$shared_git_dir/gitignore" "$HOME/.config/git/.gitignore"
+    link_file "$shared_git_dir/gitmessage" "$HOME/.config/git/.gitmessage"
     git config --global core.excludesfile "$HOME/.config/git/.gitignore"
     git config --global commit.template "$HOME/.config/git/.gitmessage"
 
@@ -77,6 +77,9 @@ Host *
   ServerAliveInterval 60
   ServerAliveCountMax 3
 EOF
+    # Copied, not linked: the source is the throwaway temp file built just
+    # above, which is deleted on the next line — and the chmod below has to
+    # land on ~/.ssh/config itself, not follow a link elsewhere.
     install_file "$ssh_config_tmp" "$HOME/.ssh/config"
     rm -f "$ssh_config_tmp"
     chmod 600 "$HOME/.ssh/config"

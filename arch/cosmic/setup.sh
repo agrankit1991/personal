@@ -79,7 +79,10 @@ EOF
     sudo install -Dm755 "$cosmic_dir/scripts/clipboard-history" \
         /usr/local/bin/clipboard-history
 
-    install_dir "$cosmic_dir/config/fuzzel" "$HOME/.config/fuzzel"
+    link_dir "$cosmic_dir/config/fuzzel" "$HOME/.config/fuzzel"
+    # Copied, not linked: `systemctl enable` reads a symlinked unit file as an
+    # alias of its target rather than as the unit itself, which is not what
+    # the enable below is asking for.
     install_file "$cosmic_dir/config/systemd/cliphist.service" \
         "$HOME/.config/systemd/user/cliphist.service"
     systemctl --user daemon-reload
@@ -109,6 +112,11 @@ EOF
     # Settings is overwritten on the next run; capture-config.sh is the way
     # back out, pulling UI changes into the repo. Both scripts read
     # cosmic-ids.txt, so the two directions cannot drift.
+    #
+    # Copied rather than linked (the odd ones out in this repo — see
+    # shared/lib/backup.sh): COSMIC rewrites these files continuously as you
+    # use the desktop, so linking would keep the repo permanently dirty with
+    # churn and leave capture-config.sh copying files onto themselves.
     log_info "Installing COSMIC shortcuts, theme, panel and dock settings..."
     read_package_list "$cosmic_dir/config/cosmic-ids.txt"
     local cfg_id

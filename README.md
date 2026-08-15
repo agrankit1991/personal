@@ -77,11 +77,43 @@ selection. It's built from the **source** `paru` AUR package rather than
 `paru-bin`/`paru-bin-debug`, whose prebuilt binaries have proven unreliable
 here; that costs a few minutes of Rust compile time on a fresh machine.
 The script then asks which components to install. Every step is
-safe to re-run: config files are only touched if their content actually
-changed (and the *first* differing file is backed up to `<name>.backup` —
-later re-runs won't clobber that backup with our own previously-installed
-copy), and system changes like the wallpaper cron entry or the login
+safe to re-run: config files are only touched if they aren't already in
+place (and the *first* pre-existing file is backed up to `<name>.backup` —
+later re-runs won't clobber that backup with something we installed
+ourselves), and system changes like the wallpaper cron entry or the login
 manager's NumLock config are written idempotently.
+
+### Config files are symlinked
+
+Configs are **symlinked** out of this repo rather than copied into place, so
+editing one here takes effect immediately with no re-run of the installer,
+and a change made on a whim is already tracked instead of waiting to be
+copied back by hand. `shared/lib/backup.sh` has both flavours —
+`link_file`/`link_dir` and `install_file`/`install_dir` — and everything uses
+the linking pair except where noted below.
+
+Two consequences worth knowing:
+
+- The links hold **absolute paths**, so the repo is expected to stay where it
+  was first cloned. Move it and every link dangles at once.
+- The repo is **live**. A `git checkout` of an older commit, a rebase, or a
+  `git clean` changes your running config the moment it touches the file —
+  which for something like `hypr/` means a half-finished edit is in effect as
+  soon as you save it.
+
+Two things are still copied. **COSMIC's config dirs** (`arch/cosmic/`) are
+rewritten continuously by the desktop itself; linking them would keep the
+repo permanently dirty with churn and leave `capture-config.sh` — the script
+that pulls UI changes back in — copying files onto themselves. The
+**cliphist systemd unit** is copied because `systemctl enable` reads a
+symlinked unit file as an alias of its target rather than as the unit itself.
+
+The editor settings (`shared/config/{zed,vscode}/settings.jsonc`) *are*
+linked, which is a deliberate trade: Zed and VS Code write these files back
+when you change a setting in their UI, so linking means the change lands in
+the repo instead of being lost on the next install — but the editor, not you,
+owns the formatting of whatever it rewrites. Check `git diff` before
+committing rather than assuming the comment blocks came through intact.
 
 ### Components (per script)
 
@@ -117,7 +149,7 @@ Compositor + Wayland utilities (waybar, rofi, swaync, hypridle/hyprlock,
 hyprpolkitagent, uwsm, ...), SDDM + NumLock, gnome-keyring, the GNOME app
 suite Hyprland doesn't bundle on its own (Nautilus, Loupe, Amberol, Showtime,
 Papers, codecs, thumbnailers), and the wallpaper-shuffler cron job. Also
-copies the tracked `hyprland/config/` tree into `~/.config`, the keybind
+links the tracked `hyprland/config/` tree into `~/.config`, the keybind
 helper scripts into `~/scripts`, and the Bibata cursor theme into
 `~/.local/share/icons`.
 

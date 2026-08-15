@@ -50,17 +50,17 @@ _install_hypr_config() {
     src_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/config"
 
     log_info "Installing Hyprland config..."
-    install_dir "$src_dir/hypr" "$HOME/.config/hypr"
-    install_dir "$src_dir/waybar" "$HOME/.config/waybar"
-    install_dir "$src_dir/rofi" "$HOME/.config/rofi"
-    install_dir "$src_dir/swaync" "$HOME/.config/swaync"
-    install_file "$src_dir/brave-flags.conf" "$HOME/.config/brave-flags.conf"
-    install_file "$src_dir/chromium-flags.conf" "$HOME/.config/chromium-flags.conf"
+    link_dir "$src_dir/hypr" "$HOME/.config/hypr"
+    link_dir "$src_dir/waybar" "$HOME/.config/waybar"
+    link_dir "$src_dir/rofi" "$HOME/.config/rofi"
+    link_dir "$src_dir/swaync" "$HOME/.config/swaync"
+    link_file "$src_dir/brave-flags.conf" "$HOME/.config/brave-flags.conf"
+    link_file "$src_dir/chromium-flags.conf" "$HOME/.config/chromium-flags.conf"
 
     local repo_root
     repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-    install_dir "$repo_root/arch/hyprland/scripts" "$HOME/scripts"
-    install_dir "$repo_root/arch/hyprland/themes/icons" "$HOME/.local/share/icons"
+    link_dir "$repo_root/arch/hyprland/scripts" "$HOME/scripts"
+    link_dir "$repo_root/arch/hyprland/themes/icons" "$HOME/.local/share/icons"
 
     # No wallpapers ship in this repo (they're multi-MB binaries that dwarfed
     # everything else in it) — just create the directory the shuffler cron job
@@ -88,8 +88,8 @@ _install_hypr_uwsm() {
     install_pkg uwsm
     local src_dir
     src_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/config/uwsm"
-    install_file "$src_dir/hyprland.desktop" "$HOME/.config/uwsm/hyprland.desktop"
-    install_file "$src_dir/env" "$HOME/.config/uwsm/env"
+    link_file "$src_dir/hyprland.desktop" "$HOME/.config/uwsm/hyprland.desktop"
+    link_file "$src_dir/env" "$HOME/.config/uwsm/env"
 }
 
 _install_hypr_gnome_apps() {

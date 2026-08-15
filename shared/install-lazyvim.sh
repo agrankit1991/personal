@@ -21,6 +21,6 @@ install_lazyvim() {
     # but this overlay must land on re-runs too, not just the first install.
     # The starter's own keymaps.lua is a comment-only placeholder, so there is
     # nothing of theirs to preserve by replacing it.
-    install_file "$shared_dir/nvim/lua/config/keymaps.lua" \
+    link_file "$shared_dir/nvim/lua/config/keymaps.lua" \
         "$HOME/.config/nvim/lua/config/keymaps.lua"
 }
