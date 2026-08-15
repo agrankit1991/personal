@@ -26,3 +26,10 @@ com.system76.CosmicAppList
 # points Terminal at ghostty). Both are partial overlays on the defaults in
 # /usr/share/cosmic, so only what's set here deviates from stock.
 com.system76.CosmicSettings.Shortcuts
+
+# cosmic-term itself. The default font (Adwaita Mono) has powerline
+# separators but not Nerd Font icon glyphs, so icons fell back to a
+# non-monospace font and misaligned starship's powerline segments — hence
+# the font_name override in here to JetBrainsMono Nerd Font Mono, matching
+# the family Ghostty already uses.
+com.system76.CosmicTerm
