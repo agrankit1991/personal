@@ -1,0 +1,52 @@
+{
+  "theme": "auto",
+  "permissions": {
+    "additionalDirectories": [
+      "/home/bawandar/code"
+    ],
+    "allow": [
+      "Read(//home/bawandar/code/**)",
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch)",
+      "Bash(git branch --list*)",
+      "Bash(git remote -v)",
+      "Bash(ls *)",
+      "Bash(rg *)",
+      "Bash(find *)",
+      "Bash(file *)",
+      "Bash(wc *)",
+      "Bash(bash -n *)",
+      "Bash(jq *)",
+      "Bash(./gradlew *)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean *)",
+      "Bash(paru *)",
+      "Bash(pacman *)",
+      "Bash(flatpak *)",
+      "Bash(systemctl *)"
+    ],
+    "deny": [
+      "Bash(sudo *)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~*)",
+      "Bash(mkfs*)",
+      "Bash(dd if=*)",
+      "Read(//home/bawandar/.ssh/**)",
+      "Read(//home/bawandar/.claude/.credentials.json)",
+      "Read(//home/bawandar/.gnupg/**)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/*.p12)",
+      "Read(**/id_rsa*)",
+      "Read(**/id_ed25519*)"
+    ]
+  }
+}

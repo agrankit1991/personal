@@ -41,6 +41,25 @@ install_apps_component() {
     link_file "$repo_root/shared/config/vscode/settings.jsonc" \
         "$HOME/.config/Code/User/settings.json"
 
+    # Claude Code's global instructions and settings. Unlike the editors above
+    # the destination is identical on every OS, so the reason these are not in
+    # install-dotfiles.sh is the opposite one: claude-code is installed by this
+    # component (apps-aur.txt) and only on Arch, so linking its config from the
+    # cross-platform dotfiles would create ~/.claude on machines that never get
+    # the tool.
+    #
+    # settings.json is rewritten by Claude Code itself when a setting changes,
+    # so it is linked for the same reason the editor settings are — the change
+    # lands in the repo instead of being lost on the next install.
+    #
+    # Deliberately two files rather than the directory: the rest of ~/.claude
+    # holds OAuth credentials, shell history and session transcripts, none of
+    # which belong in a repo.
+    link_file "$repo_root/shared/config/claude/CLAUDE.md" \
+        "$HOME/.claude/CLAUDE.md"
+    link_file "$repo_root/shared/config/claude/settings.json" \
+        "$HOME/.claude/settings.json"
+
     log_success "GUI apps ready"
     log_info "Optional OpenCode setup: run 'opencode init' to configure API keys"
 }
