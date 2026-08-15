@@ -13,6 +13,20 @@ alias df='duf'
 alias top='btop'
 
 # ===============================
+# Editors
+# ===============================
+# Arch ships Zed's CLI as 'zeditor', not 'zed' — upstream renames it there to
+# stay clear of the `zed` line editor that zsh itself ships as an autoloadable
+# function. Nothing autoloads that function here, so the name is free.
+#
+# Guarded because this file is shared with macOS, where the CLI is already
+# called 'zed': aliasing unconditionally would point the real command at a
+# binary that doesn't exist on that side.
+if (( $+commands[zeditor] )); then
+    alias zed='zeditor'
+fi
+
+# ===============================
 # Directory Navigation
 # ===============================
 alias ..='cd ..'
