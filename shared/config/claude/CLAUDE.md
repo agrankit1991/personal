@@ -33,6 +33,10 @@ For each command, say in a line or two:
 
 Batch narration is fine when several commands serve one obvious purpose — describe the group and what each contributes. What is not fine is a command appearing with no prior explanation.
 
+## Git commits
+
+Do not add a `Co-Authored-By: Claude` (or any Co-Authored-By) trailer to commit messages, overriding the default workflow that appends one. Applies to every commit, in every project, regardless of how it's created.
+
 ## Naming
 
 Naming is a first-class design concern, on code and files alike. Identify the *correct noun* for the thing being named, and be willing to change the structure itself when the existing shape has no honest name. This applies at every level: variables, methods, classes, files, directories, packages.
