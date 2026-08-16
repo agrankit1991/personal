@@ -16,8 +16,8 @@ font-size = 13
 #font-feature = liga
 
 # Appearance
-background-opacity = 0.9
-window-decoration = false
+background-opacity = 1.0
+window-decoration = true
 
 # Window Padding
 window-padding-x = 10
@@ -30,6 +30,11 @@ working-directory = ~/code
 # Shift+Insert, but Ghostty's default for that is paste_from_selection —
 # the mouse-highlight primary selection, not what SUPER+C actually copied.
 keybind = shift+insert=paste_from_clipboard
+
+# Browser-style tab close. Note: this shadows the shell/Vim readline binding
+# for "delete previous word" globally in Ghostty — there's no performable:
+# fallback for close_tab, so Ctrl+W no longer reaches the running program.
+keybind = ctrl+w=close_tab:this
 
 # SUPER+C arrives as Ctrl+Insert. `performable:` means Ghostty only swallows
 # it when there is actually a selection to copy; otherwise it behaves as if
